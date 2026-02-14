@@ -1,0 +1,2168 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SHG Shakti Ad Generator</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <style>
+        :root {
+            --saffron: #FF6B1A;
+            --deeprose: #E8336D;
+            --gold: #F5A623;
+            --teal: #00BFA5;
+            --darkbg: #0D0A1E;
+            --cardbg: #16112E;
+            --cardbg2: #1E1640;
+            --text: #F0EBF8;
+            --muted: #9A8FBB;
+            --glow: rgba(232, 51, 109, 0.35);
+            --glowt: rgba(0, 191, 165, 0.35);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--darkbg);
+            color: var(--text);
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ── BACKGROUND ORBS ── */
+        body::before,
+        body::after {
+            content: '';
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        body::before {
+            width: 420px;
+            height: 420px;
+            background: radial-gradient(circle, rgba(232, 51, 109, 0.22), transparent 70%);
+            top: -80px;
+            left: -80px;
+            animation: drift1 8s ease-in-out infinite alternate;
+        }
+
+        body::after {
+            width: 380px;
+            height: 380px;
+            background: radial-gradient(circle, rgba(0, 191, 165, 0.18), transparent 70%);
+            bottom: -60px;
+            right: -60px;
+            animation: drift2 10s ease-in-out infinite alternate;
+        }
+
+        @keyframes drift1 {
+            to {
+                transform: translate(40px, 30px);
+            }
+        }
+
+        @keyframes drift2 {
+            to {
+                transform: translate(-40px, -30px);
+            }
+        }
+
+        /* ── LANG TOGGLE ── */
+        .lang-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 10px 18px;
+            background: rgba(13, 10, 30, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 107, 26, 0.15);
+        }
+
+        .lang-pill {
+            display: flex;
+            background: var(--cardbg2);
+            border-radius: 50px;
+            border: 1.5px solid rgba(245, 166, 35, 0.3);
+            overflow: hidden;
+            box-shadow: 0 0 12px rgba(245, 166, 35, 0.1);
+        }
+
+        .lang-btn {
+            padding: 6px 18px;
+            font-size: 13px;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            border: none;
+            background: transparent;
+            color: var(--muted);
+            cursor: pointer;
+            transition: all 0.25s;
+            letter-spacing: 0.5px;
+        }
+
+        .lang-btn.active {
+            background: linear-gradient(135deg, var(--saffron), var(--deeprose));
+            color: #fff;
+            border-radius: 50px;
+            box-shadow: 0 0 16px var(--glow);
+        }
+
+        /* ── HERO ── */
+        .hero {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 100px 20px 48px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(245, 166, 35, 0.12);
+            border: 1px solid rgba(245, 166, 35, 0.4);
+            border-radius: 50px;
+            padding: 6px 16px;
+            font-size: 11.5px;
+            font-weight: 600;
+            color: var(--gold);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            animation: fadeUp 0.6s ease both;
+        }
+
+        .hero-title {
+            font-family: 'Baloo 2', cursive;
+            font-size: clamp(28px, 7vw, 52px);
+            font-weight: 800;
+            line-height: 1.15;
+            animation: fadeUp 0.7s 0.1s ease both;
+            background: linear-gradient(135deg, #fff 0%, var(--gold) 50%, var(--deeprose) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-sub {
+            font-size: clamp(13px, 3vw, 16px);
+            color: var(--muted);
+            margin-top: 12px;
+            max-width: 480px;
+            margin-inline: auto;
+            font-weight: 400;
+            line-height: 1.6;
+            animation: fadeUp 0.8s 0.2s ease both;
+        }
+
+        /* ── MAIN CARD ── */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 520px;
+            margin: 0 auto;
+            padding: 0 16px 80px;
+        }
+
+        .step-card {
+            background: var(--cardbg);
+            border: 1.5px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 28px 24px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+            animation: fadeUp 0.7s ease both;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .step-card:hover {
+            border-color: rgba(232, 51, 109, 0.3);
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(232, 51, 109, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        }
+
+        .step-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            border-radius: 24px 24px 0 0;
+        }
+
+        .step-card.s1::before {
+            background: linear-gradient(90deg, var(--saffron), var(--gold));
+        }
+
+        .step-card.s2::before {
+            background: linear-gradient(90deg, var(--deeprose), var(--saffron));
+        }
+
+        .step-card.s3::before {
+            background: linear-gradient(90deg, var(--teal), #00E5CB);
+        }
+
+        .step-card.s4::before {
+            background: linear-gradient(90deg, var(--gold), var(--deeprose));
+        }
+
+        .step-card.s1 {
+            animation-delay: 0.25s;
+        }
+
+        .step-card.s2 {
+            animation-delay: 0.35s;
+        }
+
+        .step-card.s3 {
+            animation-delay: 0.45s;
+        }
+
+        .step-card.s4 {
+            animation-delay: 0.55s;
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+
+        .step-num {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Baloo 2', cursive;
+            font-size: 18px;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .s1 .step-num {
+            background: linear-gradient(135deg, var(--saffron), var(--gold));
+        }
+
+        .s2 .step-num {
+            background: linear-gradient(135deg, var(--deeprose), var(--saffron));
+        }
+
+        .s3 .step-num {
+            background: linear-gradient(135deg, var(--teal), #00E5CB);
+            color: #0D0A1E;
+        }
+
+        .s4 .step-num {
+            background: linear-gradient(135deg, var(--gold), var(--deeprose));
+        }
+
+        .step-label {
+            font-size: 17px;
+            font-weight: 700;
+            font-family: 'Baloo 2', cursive;
+        }
+
+        .step-desc {
+            font-size: 12.5px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        /* ── UPLOAD ZONE ── */
+        .upload-zone {
+            border: 2px dashed rgba(255, 107, 26, 0.4);
+            border-radius: 16px;
+            padding: 32px 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(255, 107, 26, 0.04);
+            position: relative;
+        }
+
+        .upload-zone:hover,
+        .upload-zone.drag {
+            border-color: var(--saffron);
+            background: rgba(255, 107, 26, 0.09);
+            transform: scale(1.01);
+        }
+
+        .upload-zone input {
+            display: none;
+        }
+
+        .upload-icon {
+            font-size: 46px;
+            margin-bottom: 10px;
+            display: block;
+            animation: pulse-icon 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-icon {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.07);
+            }
+        }
+
+        .upload-zone h3 {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .upload-zone p {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .upload-zone .browse-link {
+            color: var(--saffron);
+            font-weight: 600;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        /* preview thumbnails */
+        .thumb-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .thumb {
+            aspect-ratio: 1;
+            border-radius: 10px;
+            background: var(--cardbg2);
+            border: 1.5px solid rgba(255, 255, 255, 0.08);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .thumb .rm {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background: rgba(232, 51, 109, 0.85);
+            border: none;
+            color: #fff;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .thumb-add {
+            aspect-ratio: 1;
+            border-radius: 10px;
+            background: transparent;
+            border: 1.5px dashed rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: var(--muted);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .thumb-add:hover {
+            border-color: var(--saffron);
+            color: var(--saffron);
+        }
+
+        /* ── INPUT FIELDS ── */
+        .field-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .field-row.single {
+            grid-template-columns: 1fr;
+        }
+
+        .field-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .field-group label {
+            font-size: 11.5px;
+            font-weight: 600;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .field-group input,
+        .field-group select,
+        .field-group textarea {
+            background: var(--cardbg2);
+            border: 1.5px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 12px 14px;
+            color: var(--text);
+            font-family: 'Poppins', sans-serif;
+            font-size: 13.5px;
+            outline: none;
+            transition: border-color 0.25s, box-shadow 0.25s;
+            width: 100%;
+        }
+
+        .field-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .field-group input:focus,
+        .field-group select:focus,
+        .field-group textarea:focus {
+            border-color: var(--deeprose);
+            box-shadow: 0 0 0 3px rgba(232, 51, 109, 0.15);
+        }
+
+        .field-group select option {
+            background: #1E1640;
+        }
+
+        /* ── CHIPS ── */
+        .chip-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        .chip {
+            padding: 7px 14px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+            border: 1.5px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--muted);
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .chip:hover {
+            border-color: var(--saffron);
+            color: var(--saffron);
+        }
+
+        .chip.sel,
+        .chip.selected {
+            background: linear-gradient(135deg, var(--deeprose), var(--saffron));
+            border-color: transparent;
+            color: #fff;
+            box-shadow: 0 4px 14px var(--glow);
+        }
+
+        /* ── RANGE SLIDER ── */
+        .slider-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .slider-row input[type=range] {
+            flex: 1;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 5px;
+            border-radius: 10px;
+            background: var(--cardbg2);
+            outline: none;
+            border: none;
+            padding: 0;
+        }
+
+        .slider-row input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--deeprose), var(--saffron));
+            cursor: pointer;
+            box-shadow: 0 0 10px var(--glow);
+        }
+
+        .slider-val {
+            min-width: 52px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--gold);
+            background: rgba(245, 166, 35, 0.1);
+            border-radius: 8px;
+            padding: 4px 8px;
+        }
+
+        /* ── FORMAT CARDS ── */
+        .format-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .fmt-card {
+            background: var(--cardbg2);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            padding: 14px 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .fmt-card:hover {
+            border-color: var(--saffron);
+        }
+
+        .fmt-card.sel {
+            border-color: var(--deeprose);
+            background: rgba(232, 51, 109, 0.1);
+            box-shadow: 0 0 18px rgba(232, 51, 109, 0.2);
+        }
+
+        .fmt-card span {
+            display: block;
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+
+        .fmt-card p {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--muted);
+        }
+
+        .fmt-card .fmt-dim {
+            font-size: 10px;
+            color: rgba(154, 143, 187, 0.6);
+            margin-top: 2px;
+        }
+
+        .fmt-card.sel p {
+            color: var(--text);
+        }
+
+        /* ── GENERATE BTN ── */
+        .btn-generate {
+            width: 100%;
+            padding: 18px;
+            font-size: 17px;
+            font-weight: 800;
+            font-family: 'Baloo 2', cursive;
+            border: none;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--deeprose) 0%, var(--saffron) 60%, var(--gold) 100%);
+            color: #fff;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 6px 32px var(--glow), 0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+            transition: transform 0.15s, box-shadow 0.15s;
+            letter-spacing: 0.3px;
+            margin-bottom: 20px;
+        }
+
+        .btn-generate:hover {
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 10px 40px var(--glow);
+        }
+
+        .btn-generate:active {
+            transform: translateY(0) scale(0.99);
+        }
+
+        .btn-generate::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.4s;
+        }
+
+        .btn-generate:hover::before {
+            left: 160%;
+        }
+
+        /* ── PROGRESS ── */
+        .progress-wrap {
+            display: none;
+            margin-bottom: 20px;
+        }
+
+        .progress-wrap.show {
+            display: block;
+            animation: fadeUp 0.4s ease;
+        }
+
+        .progress-bar-bg {
+            background: var(--cardbg2);
+            border-radius: 50px;
+            height: 10px;
+            overflow: hidden;
+            margin-bottom: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--deeprose), var(--saffron), var(--gold));
+            border-radius: 50px;
+            width: 0%;
+            transition: width 0.4s ease;
+            box-shadow: 0 0 12px var(--glow);
+            animation: shimmer 1.5s linear infinite;
+            background-size: 200% 100%;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: var(--muted);
+            padding: 0 2px;
+        }
+
+        .progress-steps .pstep.done {
+            color: var(--teal);
+        }
+
+        .progress-steps .pstep.active {
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        /* ══════════════════════════════════════
+     RESULTS SECTION
+  ══════════════════════════════════════ */
+        .results-section {
+            display: none;
+        }
+
+        .results-section.show {
+            display: block;
+            animation: fadeUp 0.5s ease;
+        }
+
+        .result-title {
+            font-family: 'Baloo 2', cursive;
+            font-size: 22px;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 6px;
+            background: linear-gradient(135deg, var(--gold), var(--teal));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .result-sub {
+            text-align: center;
+            font-size: 12px;
+            color: var(--muted);
+            margin-bottom: 18px;
+        }
+
+        /* ── AD GRID ── */
+        .ad-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .ad-card {
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+            border: 2px solid rgba(255, 255, 255, 0.08);
+            background: #0a0818;
+            transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.22s, border-color 0.22s;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .ad-card:hover {
+            transform: translateY(-5px) scale(1.015);
+            box-shadow: 0 18px 48px rgba(0, 0, 0, 0.65);
+            border-color: rgba(255, 107, 26, 0.4);
+        }
+
+        .ad-card.selected-ad {
+            border-color: var(--saffron);
+            box-shadow: 0 0 0 3px rgba(255, 107, 26, 0.3), 0 12px 40px rgba(255, 107, 26, 0.2);
+        }
+
+        /* ══ THE VIDEO AD REEL FRAME ══
+     CRITICAL: position:relative, overflow:hidden on .ad-reel
+     All children are position:absolute with explicit z-index  */
+        .ad-reel {
+            width: 100%;
+            aspect-ratio: 9 / 16;
+            position: relative;
+            overflow: hidden;
+            display: block;
+        }
+
+        /* ── LAYER 1: Full-frame product photo ── */
+        .ad-reel .rl-photo {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            z-index: 1;
+            display: block;
+        }
+
+        /* ── LAYER 1b: Placeholder when no image ── */
+        .ad-reel .rl-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 20px;
+        }
+
+        .rl-placeholder .pl-icon {
+            font-size: 54px;
+            filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.6));
+            animation: floatup 3s ease-in-out infinite;
+        }
+
+        @keyframes floatup {
+
+            0%,
+            100% {
+                transform: translateY(0)
+            }
+
+            50% {
+                transform: translateY(-8px)
+            }
+        }
+
+        .rl-placeholder .pl-name {
+            font-family: 'Baloo 2', cursive;
+            font-size: 12px;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.88);
+            text-align: center;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);
+            max-width: 90%;
+        }
+
+        /* ── LAYER 2: Gradient overlay for text readability ── */
+        .ad-reel .rl-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            /* strong top+bottom, clear middle so product shows */
+            background: linear-gradient(180deg,
+                    rgba(0, 0, 0, 0.70) 0%,
+                    rgba(0, 0, 0, 0.20) 25%,
+                    rgba(0, 0, 0, 0.00) 45%,
+                    rgba(0, 0, 0, 0.00) 55%,
+                    rgba(0, 0, 0, 0.75) 78%,
+                    rgba(0, 0, 0, 0.94) 100%);
+        }
+
+        /* ── LAYER 3: All UI ── */
+        .ad-reel .rl-ui {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* ── TOP BAR ── */
+        .rl-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            padding: 9px 9px 0;
+        }
+
+        .rl-brand {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-family: 'Baloo 2', cursive;
+            font-size: 9.5px;
+            font-weight: 800;
+            color: #fff;
+            text-shadow: 0 1px 8px rgba(0, 0, 0, 1);
+            max-width: 56%;
+            line-height: 1.2;
+        }
+
+        .rl-dot {
+            width: 6px;
+            height: 6px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            background: #FF6B1A;
+            box-shadow: 0 0 7px #FF6B1A;
+            animation: liveblink 1.2s ease-in-out infinite;
+        }
+
+        @keyframes liveblink {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: 0.2
+            }
+        }
+
+        .rl-tags {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 3px;
+        }
+
+        .rl-tag {
+            display: inline-block;
+            background: rgba(0, 0, 0, 0.55);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 50px;
+            padding: 2px 7px;
+            font-size: 7.5px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.9);
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+            backdrop-filter: blur(6px);
+        }
+
+        .rl-cult-tag {
+            background: rgba(245, 166, 35, 0.28);
+            border-color: rgba(245, 166, 35, 0.6);
+            color: #FFD166;
+        }
+
+        /* ── BOTTOM CONTENT ── */
+        .rl-bottom {
+            padding: 0 10px 12px;
+        }
+
+        .rl-handmade {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            padding: 2px 8px;
+            border-radius: 50px;
+            font-size: 7.5px;
+            font-weight: 800;
+            letter-spacing: 0.3px;
+            margin-bottom: 5px;
+        }
+
+        .rl-tagline {
+            font-family: 'Baloo 2', cursive;
+            font-size: 13px;
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.25;
+            margin-bottom: 4px;
+            text-shadow: 0 2px 12px rgba(0, 0, 0, 1), 0 1px 4px rgba(0, 0, 0, 0.9);
+        }
+
+        .rl-desc {
+            font-size: 8px;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.75);
+            line-height: 1.4;
+            margin-bottom: 8px;
+            text-shadow: 0 1px 6px rgba(0, 0, 0, 1);
+        }
+
+        .rl-price-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .rl-price {
+            font-family: 'Baloo 2', cursive;
+            font-size: 19px;
+            font-weight: 800;
+            line-height: 1;
+            text-shadow: 0 0 16px currentColor;
+        }
+
+        .rl-mrp {
+            font-size: 9px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.48);
+            text-decoration: line-through;
+            margin-left: 4px;
+            vertical-align: middle;
+        }
+
+        .rl-cta {
+            border: none;
+            border-radius: 50px;
+            padding: 6px 11px;
+            font-size: 9px;
+            font-weight: 800;
+            font-family: 'Poppins', sans-serif;
+            color: #fff;
+            white-space: nowrap;
+            letter-spacing: 0.2px;
+            pointer-events: none;
+            box-shadow: 0 3px 14px rgba(0, 0, 0, 0.55);
+        }
+
+        /* ── CARD FOOTER ── */
+        .ad-footer {
+            padding: 8px 11px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--cardbg);
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .ad-footer-left .ad-vtag {
+            font-size: 9px;
+            color: var(--muted);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+        }
+
+        .ad-footer-left .ad-vname {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text);
+            margin-top: 1px;
+        }
+
+        .ad-dl-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            background: rgba(0, 191, 165, 0.12);
+            border: 1.5px solid var(--teal);
+            color: var(--teal);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .ad-dl-btn:hover {
+            background: var(--teal);
+            color: #0a0818;
+        }
+
+        /* ── SELECTED CHECK ── */
+        .sel-check {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            z-index: 20;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--teal);
+            color: #0a0818;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 900;
+            box-shadow: 0 2px 8px rgba(0, 191, 165, 0.6);
+        }
+
+        .ad-card.selected-ad .sel-check {
+            display: flex;
+        }
+
+        /* ── FULLSCREEN MODAL ── */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(14px);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+
+        .modal-overlay.open {
+            display: flex;
+            animation: fadeUp 0.28s ease;
+        }
+
+        .modal-box {
+            background: var(--cardbg);
+            border-radius: 24px;
+            overflow: hidden;
+            max-width: 300px;
+            width: 100%;
+            border: 1.5px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.85);
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 30;
+            background: rgba(0, 0, 0, 0.65);
+            border: none;
+            color: #fff;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-video-frame {
+            width: 100%;
+        }
+
+        /* ── DOWNLOAD BTN ── */
+        .btn-download {
+            width: 100%;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 700;
+            font-family: 'Baloo 2', cursive;
+            border: 2px solid var(--teal);
+            border-radius: 16px;
+            background: rgba(0, 191, 165, 0.1);
+            color: var(--teal);
+            cursor: pointer;
+            transition: all 0.25s;
+            letter-spacing: 0.3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 0 0 0 var(--glowt);
+        }
+
+        .btn-download:hover {
+            background: var(--teal);
+            color: #0D0A1E;
+            box-shadow: 0 0 24px var(--glowt);
+        }
+
+        .btn-secondary {
+            width: 100%;
+            padding: 14px;
+            margin-top: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            border: 1.5px solid rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            background: transparent;
+            color: var(--muted);
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--saffron);
+            color: var(--saffron);
+        }
+
+        /* ── SUCCESS TOAST ── */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(80px);
+            background: linear-gradient(135deg, var(--teal), #00E5CB);
+            color: #0D0A1E;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: 'Baloo 2', cursive;
+            box-shadow: 0 8px 32px var(--glowt);
+            z-index: 9999;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            white-space: nowrap;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* ── ANIMATIONS ── */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(22px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ── DIVIDER ── */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 4px 0 16px;
+        }
+
+        .divider span {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            white-space: nowrap;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        /* ── SCROLLBAR ── */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--darkbg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(232, 51, 109, 0.4);
+            border-radius: 10px;
+        }
+
+        /* mobile safe */
+        @media (max-width: 380px) {
+            .field-row {
+                grid-template-columns: 1fr;
+            }
+
+            .format-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .ad-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ── CULTURAL BADGE ── */
+        .cultural-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 10px;
+        }
+
+        .ctag {
+            padding: 5px 12px;
+            border-radius: 50px;
+            font-size: 11.5px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1.5px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--muted);
+            transition: all 0.2s;
+        }
+
+        .ctag:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .ctag.sel {
+            background: rgba(245, 166, 35, 0.15);
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        /* cultural sub-labels */
+        .cult-section-label {
+            font-size: 10.5px;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 7px;
+        }
+
+        /* ── FLOATING SHIMMER ON AD CARD ── */
+        .ad-thumb .shimmer {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            background: linear-gradient(135deg,
+                    rgba(255, 107, 26, 0.12) 0%,
+                    rgba(232, 51, 109, 0.1) 40%,
+                    rgba(0, 191, 165, 0.08) 100%);
+            animation: hue-rot 6s linear infinite;
+        }
+
+        @keyframes hue-rot {
+            0% {
+                filter: hue-rotate(0deg);
+            }
+
+            100% {
+                filter: hue-rotate(360deg);
+            }
+        }
+
+        /* ── STATS ROW ── */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .stat-box {
+            background: var(--cardbg);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 14px;
+            padding: 14px 10px;
+            text-align: center;
+        }
+
+        .stat-num {
+            font-family: 'Baloo 2', cursive;
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .stat-lbl {
+            font-size: 10px;
+            color: var(--muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 2px;
+        }
+
+        .stat-box:nth-child(1) .stat-num {
+            color: var(--saffron);
+        }
+
+        .stat-box:nth-child(2) .stat-num {
+            color: var(--deeprose);
+        }
+
+        .stat-box:nth-child(3) .stat-num {
+            color: var(--teal);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- LANGUAGE BAR -->
+    <div class="lang-bar">
+        <div class="lang-pill">
+            <button class="lang-btn active" id="btn-hi" onclick="setLang('hi')">हिंदी</button>
+            <button class="lang-btn" id="btn-en" onclick="setLang('en')">English</button>
+        </div>
+    </div>
+
+    <!-- HERO -->
+    <div class="hero">
+        <div class="hero-badge" id="txt-badge">✨ AI AdTech · SHG Shakti</div>
+        <h1 class="hero-title" id="txt-title">SHG महिलाओं के लिए<br />AI वीडियो Ad Generator</h1>
+        <p class="hero-sub" id="txt-sub">सिर्फ़ फ़ोटो अपलोड करें और पेशेवर विज्ञापन तैयार करें — बिना किसी एजेंसी के</p>
+    </div>
+
+    <!-- STATS -->
+    <div class="container">
+        <div class="stats-row" style="animation: fadeUp 0.6s 0.3s ease both; opacity:0; animation-fill-mode: both;">
+            <div class="stat-box">
+                <div class="stat-num">2 मिन</div>
+                <div class="stat-lbl" id="s-t">समय</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-num">₹0</div>
+                <div class="stat-lbl" id="s-c">लागत</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-num">4 भाषा</div>
+                <div class="stat-lbl" id="s-l">भाषाएं</div>
+            </div>
+        </div>
+
+        <!-- STEP 1: UPLOAD -->
+        <div class="step-card s1">
+            <div class="step-header">
+                <div class="step-num">1</div>
+                <div>
+                    <div class="step-label" id="step1-title">📸 उत्पाद की फ़ोटो अपलोड करें</div>
+                    <div class="step-desc" id="step1-desc">अपने SHG उत्पाद की 1–5 फ़ोटो जोड़ें</div>
+                </div>
+            </div>
+
+            <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()"
+                ondragover="event.preventDefault(); this.classList.add('drag')"
+                ondragleave="this.classList.remove('drag')" ondrop="handleDrop(event)">
+                <input type="file" id="fileInput" accept="image/*" multiple onchange="handleFiles(this.files)" />
+                <span class="upload-icon">🖼️</span>
+                <h3 id="uz-h">फ़ोटो यहाँ खींचें या चुनें</h3>
+                <p id="uz-p">JPG, PNG · Max 10MB प्रति फ़ोटो · <span class="browse-link" id="uz-b">Browse</span></p>
+            </div>
+
+            <div class="thumb-grid" id="thumbGrid" style="display:none"></div>
+        </div>
+
+        <!-- STEP 2: DETAILS -->
+        <div class="step-card s2">
+            <div class="step-header">
+                <div class="step-num">2</div>
+                <div>
+                    <div class="step-label" id="step2-title">📝 उत्पाद विवरण</div>
+                    <div class="step-desc" id="step2-desc">आपके उत्पाद के बारे में बताएं</div>
+                </div>
+            </div>
+
+            <div class="field-row">
+                <div class="field-group">
+                    <label id="lbl-pname">उत्पाद का नाम</label>
+                    <input type="text" id="fld-pname" placeholder="जैसे: हाथ से बुनी शाल" />
+                </div>
+                <div class="field-group">
+                    <label id="lbl-price">कीमत (₹)</label>
+                    <input type="number" id="fld-price" placeholder="450" />
+                </div>
+            </div>
+
+            <div class="field-row single">
+                <div class="field-group">
+                    <label id="lbl-desc">उत्पाद की विशेषताएं</label>
+                    <textarea id="fld-desc" placeholder="जैसे: 100% ऊनी, हाथ से बनी, गर्म और टिकाऊ"></textarea>
+                </div>
+            </div>
+
+            <div class="field-row">
+                <div class="field-group">
+                    <label id="lbl-cat">श्रेणी</label>
+                    <select id="fld-cat">
+                        <option value="" id="o-sel">-- चुनें --</option>
+                        <option value="textile" id="o-tex">🧵 हस्तशिल्प / कपड़ा</option>
+                        <option value="food" id="o-food">🍯 खाद्य / अचार / मसाले</option>
+                        <option value="beauty" id="o-bty">🌿 सौंदर्य / हर्बल</option>
+                        <option value="pottery" id="o-pot">🏺 मिट्टी / कुम्हारी</option>
+                        <option value="jewelry" id="o-jwl">💍 आभूषण / गहने</option>
+                        <option value="household" id="o-hh">🏠 घरेलू उत्पाद (Daily Use)</option>
+                        <option value="agri" id="o-agri">🌾 कृषि / जैविक उत्पाद</option>
+                        <option value="stationery" id="o-stat">🖊️ स्टेशनरी / कागज़ी उत्पाद</option>
+                        <option value="toy" id="o-toy">🧸 खिलौने / बच्चों के उत्पाद</option>
+                        <option value="other" id="o-oth">📦 अन्य / Other</option>
+                    </select>
+                </div>
+                <div class="field-group">
+                    <label id="lbl-shg">SHG / समूह का नाम</label>
+                    <input type="text" id="fld-shg" placeholder="जैसे: माँ दुर्गा SHG" />
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 3: CUSTOMIZE -->
+        <div class="step-card s3">
+            <div class="step-header">
+                <div class="step-num">3</div>
+                <div>
+                    <div class="step-label" id="step3-title">🎨 Ad कस्टमाइज़ करें</div>
+                    <div class="step-desc" id="step3-desc">भाषा, स्थान और फ़ॉर्मेट चुनें</div>
+                </div>
+            </div>
+
+            <div class="divider"><span id="div-lang">विज्ञापन की भाषा</span></div>
+            <div class="chip-row" id="lang-chips">
+                <div class="chip sel" data-val="hindi">हिंदी</div>
+                <div class="chip" data-val="english">English</div>
+                <div class="chip" data-val="bhojpuri">भोजपुरी</div>
+                <div class="chip" data-val="marathi">मराठी</div>
+                <div class="chip" data-val="tamil">தமிழ்</div>
+                <div class="chip" data-val="bengali">বাংলা</div>
+            </div>
+
+            <div class="divider" style="margin-top:18px"><span id="div-loc">लक्षित क्षेत्र</span></div>
+            <div class="field-row">
+                <div class="field-group">
+                    <label id="lbl-state">राज्य</label>
+                    <select id="fld-state">
+                        <option id="o-all">-- सभी Tier-II/III --</option>
+                        <option>उत्तर प्रदेश</option>
+                        <option>बिहार</option>
+                        <option>मध्य प्रदेश</option>
+                        <option>राजस्थान</option>
+                        <option>झारखंड</option>
+                        <option>छत्तीसगढ़</option>
+                        <option>महाराष्ट्र</option>
+                        <option>पश्चिम बंगाल</option>
+                        <option>ओडिशा</option>
+                        <option>तमिलनाडु</option>
+                    </select>
+                </div>
+                <div class="field-group">
+                    <label id="lbl-tone">विज्ञापन का भाव</label>
+                    <select id="fld-tone">
+                        <option id="o-trust">विश्वसनीय / भरोसेमंद</option>
+                        <option id="o-festy">उत्सवी / त्योहारी</option>
+                        <option id="o-emot">भावनात्मक / दिल को छूने वाला</option>
+                        <option id="o-bold">प्रेरणादायक / साहसी</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="divider" style="margin-top:8px"><span id="div-cult">सांस्कृतिक संदर्भ</span></div>
+
+            <!-- SECTION A: Festivals -->
+            <div class="cult-section-label" id="cult-lbl-festival">🎊 त्योहार / Festival</div>
+            <div class="cultural-tags" id="cult-tags">
+                <div class="ctag sel" data-val="diwali">🪔 दीपावली</div>
+                <div class="ctag" data-val="navratri">🎉 नवरात्री</div>
+                <div class="ctag" data-val="eid">💐 ईद</div>
+                <div class="ctag" data-val="pongal">🎊 पोंगल</div>
+                <div class="ctag" data-val="basant">🌸 बसंत पंचमी</div>
+                <div class="ctag" data-val="holi">🎨 होली</div>
+                <div class="ctag" data-val="christmas">🎄 Christmas</div>
+                <div class="ctag" data-val="independence">🇮🇳 Independence Day</div>
+            </div>
+
+            <!-- SECTION B: Daily Use / Occasions -->
+            <div class="cult-section-label" style="margin-top:12px;" id="cult-lbl-daily">🏠 रोज़मर्रा / Daily Occasions
+            </div>
+            <div class="cultural-tags" id="daily-tags">
+                <div class="ctag" data-val="morning">☀️ सुबह की दिनचर्या</div>
+                <div class="ctag" data-val="kitchen">🍳 रसोई / Kitchen Use</div>
+                <div class="ctag" data-val="cleaning">🧹 सफ़ाई / Cleaning</div>
+                <div class="ctag" data-val="personal">🧴 Personal Care</div>
+                <div class="ctag" data-val="gifting">🎁 उपहार / Gifting</div>
+                <div class="ctag" data-val="school">🎒 बच्चे / School</div>
+                <div class="ctag" data-val="wedding">💍 शादी / Wedding</div>
+                <div class="ctag" data-val="harvest">🌾 फसल / Harvest</div>
+            </div>
+
+            <!-- SECTION C: Other (custom) -->
+            <div class="cultural-tags" style="margin-top:8px;">
+                <div class="ctag" data-val="other" id="ctag-other">✏️ अन्य / Other</div>
+            </div>
+            <!-- Custom cultural context input — shows when "Other" is selected -->
+            <div id="cult-other-wrap" style="display:none; margin-top:10px;">
+                <div class="field-group">
+                    <label id="lbl-cult-custom">अपना संदर्भ लिखें</label>
+                    <input type="text" id="fld-cult-custom"
+                        placeholder="जैसे: Raksha Bandhan, Summer Sale, Back to School..." />
+                </div>
+            </div>
+
+            <div class="divider" style="margin-top:18px"><span id="div-fmt">Ad फ़ॉर्मेट</span></div>
+            <div class="format-grid" id="fmt-grid">
+                <div class="fmt-card sel" data-fmt="reel">
+                    <span>📱</span>
+                    <p id="f-reel">Reel / Story</p>
+                    <div class="fmt-dim">9:16</div>
+                </div>
+                <div class="fmt-card" data-fmt="square">
+                    <span>⬛</span>
+                    <p id="f-sq">Square Post</p>
+                    <div class="fmt-dim">1:1</div>
+                </div>
+                <div class="fmt-card" data-fmt="landscape">
+                    <span>🖥️</span>
+                    <p id="f-land">Landscape</p>
+                    <div class="fmt-dim">16:9</div>
+                </div>
+            </div>
+
+            <div class="divider" style="margin-top:18px"><span id="div-dur">वीडियो अवधि</span></div>
+            <div class="slider-row">
+                <input type="range" id="dur-slider" min="5" max="60" value="15"
+                    oninput="document.getElementById('dur-val').textContent = this.value + 's'" />
+                <div class="slider-val" id="dur-val">15s</div>
+            </div>
+        </div>
+
+        <!-- STEP 4: GENERATE -->
+        <div class="step-card s4">
+            <div class="step-header">
+                <div class="step-num">4</div>
+                <div>
+                    <div class="step-label" id="step4-title">🚀 Ad बनाएं</div>
+                    <div class="step-desc" id="step4-desc">AI आपके लिए 4 अलग-अलग Ad वेरिएंट बनाएगी</div>
+                </div>
+            </div>
+
+            <button class="btn-generate" id="genBtn" onclick="startGenerate()">
+                <span id="gen-btn-txt">✨ AI Ad बनाएं — अभी!</span>
+            </button>
+        </div>
+
+        <!-- PROGRESS -->
+        <div class="progress-wrap" id="progWrap">
+            <div class="progress-bar-bg">
+                <div class="progress-bar" id="progBar"></div>
+            </div>
+            <div class="progress-steps">
+                <span class="pstep" id="p1">🖼️ फ़ोटो विश्लेषण</span>
+                <span class="pstep" id="p2">✍️ Copywriting</span>
+                <span class="pstep" id="p3">🎞️ वीडियो रेंडर</span>
+                <span class="pstep" id="p4">✅ तैयार!</span>
+            </div>
+        </div>
+
+        <!-- RESULTS -->
+        <div class="results-section" id="results">
+            <div class="result-title" id="res-title">🎉 आपकी 4 Ad Variants तैयार हैं!</div>
+            <div class="result-sub" id="res-sub">किसी Ad पर tap करें — fullscreen preview देखें</div>
+            <div class="ad-grid" id="adGrid"></div>
+            <button class="btn-download" onclick="downloadAll()">
+                <span>⬇️</span> <span id="dl-txt">सभी Ad Download करें (ZIP)</span>
+            </button>
+            <button class="btn-secondary" id="regen-btn" onclick="resetForm()">↺ नई Ad बनाएं</button>
+        </div>
+    </div>
+
+    <!-- FULLSCREEN PREVIEW MODAL -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+        <div class="modal-box">
+            <button class="modal-close"
+                onclick="document.getElementById('modalOverlay').classList.remove('open')">✕</button>
+            <div class="modal-video-frame" id="modalContent"></div>
+        </div>
+    </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast">✅ Download शुरू हो गई!</div>
+
+    <script>
+        // ───────────── LANGUAGE CONTENT ─────────────
+        const CONTENT = {
+            hi: {
+                badge: '✨ AI AdTech · SHG Shakti',
+                title: 'SHG महिलाओं के लिए<br/>AI वीडियो Ad Generator',
+                sub: 'सिर्फ़ फ़ोटो अपलोड करें और पेशेवर विज्ञापन तैयार करें — बिना किसी एजेंसी के',
+                sT: 'समय', sC: 'लागत', sL: 'भाषाएं',
+                s1t: '📸 उत्पाद की फ़ोटो अपलोड करें', s1d: 'अपने SHG उत्पाद की 1–5 फ़ोटो जोड़ें',
+                uzh: 'फ़ोटो यहाँ खींचें या चुनें', uzp: 'JPG, PNG · Max 10MB प्रति फ़ोटो ·', uzb: 'Browse',
+                s2t: '📝 उत्पाद विवरण', s2d: 'आपके उत्पाद के बारे में बताएं',
+                lpn: 'उत्पाद का नाम', lpph: 'जैसे: हाथ से बुनी शाल',
+                lpr: 'कीमत (₹)', lpn2: '450',
+                ld: 'उत्पाद की विशेषताएं', ldph: 'जैसे: 100% ऊनी, हाथ से बनी, गर्म और टिकाऊ',
+                lcat: 'श्रेणी', lshg: 'SHG / समूह का नाम', lshgph: 'जैसे: माँ दुर्गा SHG',
+                oSel: '-- चुनें --', oTex: '🧵 हस्तशिल्प / कपड़ा', oFood: '🍯 खाद्य / अचार / मसाले',
+                oBty: '🌿 सौंदर्य / हर्बल', oPot: '🏺 मिट्टी / कुम्हारी', oJwl: '💍 आभूषण / गहने',
+                oHh: '🏠 घरेलू उत्पाद (Daily Use)', oAgri: '🌾 कृषि / जैविक उत्पाद',
+                oStat: '🖊️ स्टेशनरी / कागज़ी उत्पाद', oToy: '🧸 खिलौने / बच्चों के उत्पाद', oOth: '📦 अन्य / Other',
+                s3t: '🎨 Ad कस्टमाइज़ करें', s3d: 'भाषा, स्थान और फ़ॉर्मेट चुनें',
+                divLang: 'विज्ञापन की भाषा', divLoc: 'लक्षित क्षेत्र',
+                lState: 'राज्य', lTone: 'विज्ञापन का भाव',
+                oTrust: 'विश्वसनीय / भरोसेमंद', oFesty: 'उत्सवी / त्योहारी', oEmot: 'भावनात्मक / दिल को छूने वाला', oBold: 'प्रेरणादायक / साहसी',
+                divCult: 'सांस्कृतिक संदर्भ', divFmt: 'Ad फ़ॉर्मेट', divDur: 'वीडियो अवधि',
+                fReel: 'Reel / Story', fSq: 'Square Post', fLand: 'Landscape',
+                s4t: '🚀 Ad बनाएं', s4d: 'AI आपके लिए 4 अलग-अलग Ad वेरिएंट बनाएगी',
+                genBtn: '✨ AI Ad बनाएं — अभी!',
+                p1: '🖼️ फ़ोटो विश्लेषण', p2: '✍️ Copywriting', p3: '🎞️ वीडियो रेंडर', p4: '✅ तैयार!',
+                resTitle: '🎉 आपकी 4 Ad Variants तैयार हैं!',
+                dlTxt: 'सभी Ad Download करें (ZIP)', regenBtn: '↺ नई Ad बनाएं',
+                toastMsg: '✅ Download शुरू हो गई!',
+                adVariants: ['भावनात्मक कहानी', 'उत्सव Edition', 'सेल फ़ोकस', 'ब्रांड प्रेरणा'],
+                adTaglines: [
+                    'हर घर में पहुँचे,\nहर दिल को छुए',
+                    'इस त्योहार पर,\nकुछ खास लाएं',
+                    'सीमित समय!\nबड़ी बचत करें',
+                    'SHG महिलाओं की\nताकत से बना'
+                ],
+                adDescs: [
+                    'हमारे हाथ से बने उत्पाद आपके घर में खुशियाँ लाएंगे।',
+                    'त्योहार के मौके पर अपनों को दें हस्तशिल्प का तोहफा।',
+                    'अभी ऑर्डर करें और पाएं मुफ़्त डिलीवरी + 20% छूट।',
+                    'स्वयं सहायता समूह की महिलाओं द्वारा तैयार, गुणवत्ता की गारंटी।'
+                ],
+                adCTAs: ['अभी खरीदें', 'ऑर्डर करें', 'डील पाएं', 'और जानें'],
+                resSub: 'किसी Ad पर tap करें — fullscreen preview देखें',
+                lCultCustom: 'अपना संदर्भ लिखें (Custom Context)',
+            },
+            en: {
+                badge: '✨ AI AdTech · SHG Shakti',
+                title: 'AI Video Ad Generator<br/>for SHG Women',
+                sub: 'Upload product photos and get professional ads — no agency needed',
+                sT: 'Time', sC: 'Cost', sL: 'Languages',
+                s1t: '📸 Upload Product Photos', s1d: 'Add 1–5 photos of your SHG product',
+                uzh: 'Drag & Drop or Choose Photos', uzp: 'JPG, PNG · Max 10MB each ·', uzb: 'Browse',
+                s2t: '📝 Product Details', s2d: 'Tell us about your product',
+                lpn: 'Product Name', lpph: 'e.g. Hand-woven Shawl',
+                lpr: 'Price (₹)', lpn2: '450',
+                ld: 'Product Features', ldph: 'e.g. 100% wool, handmade, warm and durable',
+                lcat: 'Category', lshg: 'SHG / Group Name', lshgph: 'e.g. Maa Durga SHG',
+                oSel: '-- Select --', oTex: '🧵 Handicraft / Textile', oFood: '🍯 Food / Pickle / Spices',
+                oBty: '🌿 Beauty / Herbal', oPot: '🏺 Pottery / Ceramics', oJwl: '💍 Jewelry / Ornaments',
+                oHh: '🏠 Household / Daily Use', oAgri: '🌾 Agriculture / Organic',
+                oStat: '🖊️ Stationery / Paper Products', oToy: '🧸 Toys / Children Products', oOth: '📦 Other',
+                s3t: '🎨 Customize Your Ad', s3d: 'Choose language, location and format',
+                divLang: 'Ad Language', divLoc: 'Target Region',
+                lState: 'State', lTone: 'Ad Tone',
+                oTrust: 'Trustworthy / Reliable', oFesty: 'Festive / Celebratory', oEmot: 'Emotional / Heartfelt', oBold: 'Inspirational / Bold',
+                divCult: 'Cultural Context', divFmt: 'Ad Format', divDur: 'Video Duration',
+                fReel: 'Reel / Story', fSq: 'Square Post', fLand: 'Landscape',
+                s4t: '🚀 Generate Your Ad', s4d: 'AI will create 4 unique ad variants for you',
+                genBtn: '✨ Generate AI Ad — Now!',
+                p1: '🖼️ Analyzing Photos', p2: '✍️ Copywriting', p3: '🎞️ Rendering Video', p4: '✅ Done!',
+                resTitle: '🎉 Your 4 Ad Variants are Ready!',
+                dlTxt: 'Download All Ads (ZIP)', regenBtn: '↺ Generate New Ad',
+                toastMsg: '✅ Download started!',
+                adVariants: ['Emotional Story', 'Festive Edition', 'Sale Focus', 'Brand Inspiration'],
+                adTaglines: [
+                    'Crafted with love,\nDelivered with care',
+                    'This festive season,\nbring home something special',
+                    'Limited Time!\nSave Big Today',
+                    'Made by SHG Women,\nMade with Purpose'
+                ],
+                adDescs: [
+                    'Handmade products that bring warmth and joy to every home.',
+                    'Gift the art of local craftsmanship this festive season.',
+                    'Order now and get free delivery + 20% off on all items.',
+                    'Quality guaranteed. Made by self-help group artisans.'
+                ],
+                adCTAs: ['Buy Now', 'Order Now', 'Grab Deal', 'Learn More'],
+                resSub: 'Tap any Ad to see fullscreen preview',
+                lCultCustom: 'Write your custom context',
+            }
+        };
+
+        let currentLang = 'hi';
+
+        function setLang(lang) {
+            currentLang = lang;
+            const c = CONTENT[lang];
+            document.getElementById('btn-hi').classList.toggle('active', lang === 'hi');
+            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+            document.getElementById('txt-badge').textContent = c.badge;
+            document.getElementById('txt-title').innerHTML = c.title;
+            document.getElementById('txt-sub').textContent = c.sub;
+            document.getElementById('s-t').textContent = c.sT;
+            document.getElementById('s-c').textContent = c.sC;
+            document.getElementById('s-l').textContent = c.sL;
+            document.getElementById('step1-title').textContent = c.s1t;
+            document.getElementById('step1-desc').textContent = c.s1d;
+            document.getElementById('uz-h').textContent = c.uzh;
+            document.getElementById('uz-p').innerHTML = c.uzp + ' <span class="browse-link" id="uz-b">' + c.uzb + '</span>';
+            document.getElementById('step2-title').textContent = c.s2t;
+            document.getElementById('step2-desc').textContent = c.s2d;
+            document.getElementById('lbl-pname').textContent = c.lpn;
+            document.getElementById('fld-pname').placeholder = c.lpph;
+            document.getElementById('lbl-price').textContent = c.lpr;
+            document.getElementById('fld-price').placeholder = c.lpn2;
+            document.getElementById('lbl-desc').textContent = c.ld;
+            document.getElementById('fld-desc').placeholder = c.ldph;
+            document.getElementById('lbl-cat').textContent = c.lcat;
+            document.getElementById('lbl-shg').textContent = c.lshg;
+            document.getElementById('fld-shg').placeholder = c.lshgph;
+            document.getElementById('o-sel').textContent = c.oSel;
+            document.getElementById('o-tex').textContent = c.oTex;
+            document.getElementById('o-food').textContent = c.oFood;
+            document.getElementById('o-bty').textContent = c.oBty;
+            document.getElementById('o-pot').textContent = c.oPot;
+            document.getElementById('o-jwl').textContent = c.oJwl;
+            document.getElementById('o-hh').textContent = c.oHh;
+            document.getElementById('o-agri').textContent = c.oAgri;
+            document.getElementById('o-stat').textContent = c.oStat;
+            document.getElementById('o-toy').textContent = c.oToy;
+            document.getElementById('o-oth').textContent = c.oOth;
+            if (document.getElementById('lbl-cult-custom')) document.getElementById('lbl-cult-custom').textContent = c.lCultCustom;
+            document.getElementById('step3-title').textContent = c.s3t;
+            document.getElementById('step3-desc').textContent = c.s3d;
+            document.getElementById('div-lang').textContent = c.divLang;
+            document.getElementById('div-loc').textContent = c.divLoc;
+            document.getElementById('lbl-state').textContent = c.lState;
+            document.getElementById('lbl-tone').textContent = c.lTone;
+            document.getElementById('o-trust').textContent = c.oTrust;
+            document.getElementById('o-festy').textContent = c.oFesty;
+            document.getElementById('o-emot').textContent = c.oEmot;
+            document.getElementById('o-bold').textContent = c.oBold;
+            document.getElementById('div-cult').textContent = c.divCult;
+            document.getElementById('div-fmt').textContent = c.divFmt;
+            document.getElementById('div-dur').textContent = c.divDur;
+            document.getElementById('f-reel').textContent = c.fReel;
+            document.getElementById('f-sq').textContent = c.fSq;
+            document.getElementById('f-land').textContent = c.fLand;
+            document.getElementById('step4-title').textContent = c.s4t;
+            document.getElementById('step4-desc').textContent = c.s4d;
+            document.getElementById('gen-btn-txt').textContent = c.genBtn;
+            document.getElementById('p1').textContent = c.p1;
+            document.getElementById('p2').textContent = c.p2;
+            document.getElementById('p3').textContent = c.p3;
+            document.getElementById('p4').textContent = c.p4;
+            document.getElementById('res-title').textContent = c.resTitle;
+            if (document.getElementById('res-sub')) document.getElementById('res-sub').textContent = c.resSub;
+            document.getElementById('dl-txt').textContent = c.dlTxt;
+            document.getElementById('regen-btn').textContent = c.regenBtn;
+        }
+
+        // ───────────── FILE UPLOAD ─────────────
+        let uploadedFiles = [];
+
+        function handleFiles(files) {
+            for (let f of files) {
+                if (uploadedFiles.length >= 5) break;
+                if (!f.type.startsWith('image/')) continue;
+                uploadedFiles.push(f);
+            }
+            renderThumbs();
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            document.getElementById('uploadZone').classList.remove('drag');
+            handleFiles(e.dataTransfer.files);
+        }
+
+        function renderThumbs() {
+            const grid = document.getElementById('thumbGrid');
+            const zone = document.getElementById('uploadZone');
+            if (uploadedFiles.length === 0) {
+                grid.style.display = 'none';
+                zone.style.display = 'flex';
+                return;
+            }
+            zone.style.display = 'none';
+            grid.style.display = 'grid';
+            grid.innerHTML = '';
+            uploadedFiles.forEach((f, i) => {
+                const url = URL.createObjectURL(f);
+                const div = document.createElement('div');
+                div.className = 'thumb';
+                div.innerHTML = `<img src="${url}" /><button class="rm" onclick="removeFile(${i})">✕</button>`;
+                grid.appendChild(div);
+            });
+            if (uploadedFiles.length < 5) {
+                const add = document.createElement('div');
+                add.className = 'thumb-add';
+                add.textContent = '+';
+                add.onclick = () => document.getElementById('fileInput').click();
+                grid.appendChild(add);
+            }
+        }
+
+        function removeFile(i) {
+            uploadedFiles.splice(i, 1);
+            renderThumbs();
+            if (uploadedFiles.length === 0) {
+                document.getElementById('uploadZone').style.display = 'flex';
+            }
+        }
+
+        // ───────────── CHIPS ─────────────
+        // Track selected ad language separately from UI language
+        let selectedAdLang = 'hi';
+
+        const adLangMap = {
+            hindi: 'hi', english: 'en',
+            bhojpuri: 'bh', marathi: 'mr',
+            tamil: 'ta', bengali: 'bn'
+        };
+
+        // Ad language chips — single select, pure CSS class toggle
+        document.getElementById('lang-chips').addEventListener('click', e => {
+            const chip = e.target.closest('.chip');
+            if (!chip) return;
+            document.querySelectorAll('#lang-chips .chip').forEach(c => c.classList.remove('sel'));
+            chip.classList.add('sel');
+            selectedAdLang = adLangMap[chip.dataset.val] || 'hi';
+        });
+
+        // Cultural tags — multi select across both groups, with "Other" revealing custom input
+        function setupCultTagListeners() {
+            ['cult-tags', 'daily-tags'].forEach(groupId => {
+                const grp = document.getElementById(groupId);
+                if (!grp) return;
+                grp.addEventListener('click', e => {
+                    const tag = e.target.closest('.ctag');
+                    if (!tag) return;
+                    tag.classList.toggle('sel');
+                });
+            });
+            // "Other" standalone tag
+            const otherTag = document.getElementById('ctag-other');
+            if (otherTag) {
+                otherTag.addEventListener('click', () => {
+                    otherTag.classList.toggle('sel');
+                    const wrap = document.getElementById('cult-other-wrap');
+                    if (wrap) wrap.style.display = otherTag.classList.contains('sel') ? 'block' : 'none';
+                });
+            }
+        }
+        setupCultTagListeners();
+
+        document.getElementById('fmt-grid').addEventListener('click', e => {
+            const card = e.target.closest('.fmt-card');
+            if (!card) return;
+            document.querySelectorAll('.fmt-card').forEach(c => c.classList.remove('sel'));
+            card.classList.add('sel');
+        });
+
+        // ───────────── GENERATE ─────────────
+        function startGenerate() {
+            const btn = document.getElementById('genBtn');
+            btn.disabled = true;
+            btn.querySelector('span').textContent = currentLang === 'hi' ? '⏳ बन रही है...' : '⏳ Generating...';
+
+            document.getElementById('progWrap').classList.add('show');
+            document.getElementById('results').classList.remove('show');
+
+            const bar = document.getElementById('progBar');
+            const steps = ['p1', 'p2', 'p3', 'p4'];
+            const timeline = [
+                { pct: 28, step: 0, delay: 500 },
+                { pct: 55, step: 1, delay: 1800 },
+                { pct: 82, step: 2, delay: 3200 },
+                { pct: 100, step: 3, delay: 4900 },
+            ];
+            steps.forEach(s => { document.getElementById(s).className = 'pstep'; });
+            bar.style.width = '0%';
+
+            timeline.forEach(({ pct: p, step, delay }) => {
+                setTimeout(() => {
+                    bar.style.width = p + '%';
+                    document.getElementById(steps[step]).className = 'pstep active';
+                    if (step > 0) document.getElementById(steps[step - 1]).className = 'pstep done';
+                }, delay);
+            });
+
+            setTimeout(() => {
+                document.getElementById('p3').className = 'pstep done';
+                document.getElementById('p4').className = 'pstep done';
+                showResults();
+                btn.disabled = false;
+                btn.querySelector('span').textContent = CONTENT[currentLang].genBtn;
+            }, 5900);
+        }
+
+        // ─────────────────────────────────────────
+        // AD VARIANT CONFIGS
+        // ─────────────────────────────────────────
+        const AD_THEMES = [
+            // 0 – Emotional / warm rose-purple
+            {
+                bg: '#2a0a3a', accent: '#E8336D', cta1: '#E8336D', cta2: '#FF6B1A',
+                overlay: 'linear-gradient(180deg,rgba(0,0,0,.6) 0%,rgba(0,0,0,0) 38%,rgba(0,0,0,0) 52%,rgba(42,10,58,.92) 100%)',
+                badge: '#E8336D', emoji: '🧵'
+            },
+            // 1 – Festive / teal-saffron
+            {
+                bg: '#0a2a1a', accent: '#F5A623', cta1: '#F5A623', cta2: '#FF6B1A',
+                overlay: 'linear-gradient(180deg,rgba(0,0,0,.6) 0%,rgba(0,0,0,0) 38%,rgba(0,0,0,0) 52%,rgba(10,42,26,.92) 100%)',
+                badge: '#F5A623', emoji: '🪔'
+            },
+            // 2 – Sale / bold red-dark
+            {
+                bg: '#2a0a0a', accent: '#FF4455', cta1: '#FF4455', cta2: '#E8336D',
+                overlay: 'linear-gradient(180deg,rgba(0,0,0,.6) 0%,rgba(0,0,0,0) 38%,rgba(0,0,0,0) 52%,rgba(42,10,10,.95) 100%)',
+                badge: '#FF4455', emoji: '🎁'
+            },
+            // 3 – Brand / earthy green
+            {
+                bg: '#0a2a18', accent: '#00BFA5', cta1: '#00BFA5', cta2: '#00E5CB',
+                overlay: 'linear-gradient(180deg,rgba(0,0,0,.6) 0%,rgba(0,0,0,0) 38%,rgba(0,0,0,0) 52%,rgba(10,42,24,.95) 100%)',
+                badge: '#00BFA5', emoji: '🌿'
+            },
+        ];
+
+        function buildAdReel(idx, productName, price, shgName, imageDataUrl, lang, cultContext) {
+            const theme = AD_THEMES[idx];
+            const c = CONTENT[lang] || CONTENT['hi'];
+            const tagline = (c.adTaglines || CONTENT['hi'].adTaglines)[idx];
+            const adDesc = (c.adDescs || CONTENT['hi'].adDescs)[idx];
+            const cta = (c.adCTAs || CONTENT['hi'].adCTAs)[idx];
+            const variant = c.adVariants[idx];
+
+            const pName = productName || (lang === 'hi' ? 'हस्तशिल्प उत्पाद' : 'Handicraft Product');
+            const grpName = shgName || (lang === 'hi' ? 'SHG महिला समूह' : 'SHG Women Group');
+            const showPrice = price ? `₹${price}` : '₹299';
+            const mrp = price ? `₹${Math.round(parseInt(price) * 1.28)}` : '₹380';
+            const handmade = lang === 'hi' ? '✨ हस्तनिर्मित' : '✨ Handmade';
+            const tagLines = tagline.split('\n');
+
+            // Image: show full-frame if uploaded, else decorative placeholder
+            const photoLayer = imageDataUrl
+                ? `<img class="rl-photo" src="${imageDataUrl}" alt="product"/>`
+                : `<div class="rl-placeholder" style="background:${theme.bg};">
+         <div class="pl-icon">${theme.emoji}</div>
+         <div class="pl-name">${pName}</div>
+       </div>`;
+
+            const cultBadge = cultContext
+                ? `<div class="rl-tag rl-cult-tag">${cultContext}</div>`
+                : '';
+
+            return `
+<div class="ad-reel" style="background:${theme.bg};">
+  ${photoLayer}
+  <div class="rl-overlay" style="background:${theme.overlay};"></div>
+  <div class="rl-ui">
+    <div class="rl-top">
+      <div class="rl-brand">
+        <span class="rl-dot"></span>
+        ${grpName}
+      </div>
+      <div class="rl-tags">
+        <div class="rl-tag">V${idx + 1} · ${variant}</div>
+        ${cultBadge}
+      </div>
+    </div>
+    <div class="rl-bottom">
+      <div class="rl-handmade" style="background:${theme.badge}22;border:1px solid ${theme.badge}66;color:${theme.badge};">
+        ${handmade}
+      </div>
+      <div class="rl-tagline">
+        ${tagLines.map(l => `<span style="display:block;">${l}</span>`).join('')}
+      </div>
+      <div class="rl-desc">${adDesc}</div>
+      <div class="rl-price-row">
+        <div class="rl-price" style="color:${theme.accent};">
+          ${showPrice}<span class="rl-mrp">${mrp}</span>
+        </div>
+        <div class="rl-cta"
+             style="background:linear-gradient(135deg,${theme.cta1},${theme.cta2});">
+          ${cta} →
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`;
+        }
+
+        function showResults() {
+            const c = CONTENT[currentLang];
+            const grid = document.getElementById('adGrid');
+            const pName = document.getElementById('fld-pname').value.trim();
+            const price = document.getElementById('fld-price').value.trim();
+            const desc = document.getElementById('fld-desc').value.trim();
+            const shgName = document.getElementById('fld-shg').value.trim();
+
+            // Collect cultural context
+            const selCultTags = [...document.querySelectorAll('#cult-tags .ctag.sel')].map(t => t.dataset.val);
+            const customCult = document.getElementById('fld-cult-custom')?.value?.trim() || '';
+            const cultContext = customCult
+                ? customCult
+                : (selCultTags.filter(v => v !== 'general').length > 0
+                    ? selCultTags.filter(v => v !== 'general').join(', ')
+                    : selCultTags.includes('general') ? 'Daily Life' : '');
+
+            const adLang = (selectedAdLang === 'hi' || selectedAdLang === 'en') ? selectedAdLang : currentLang;
+
+            // Convert uploaded image to base64 so it never expires
+            function renderCards(imgDataUrl) {
+                grid.innerHTML = '';
+                c.adVariants.forEach((name, i) => {
+                    const card = document.createElement('div');
+                    card.className = 'ad-card';
+                    card.style.animation = `fadeUp 0.45s ${i * 0.12}s ease both`;
+                    card.style.opacity = '0';
+
+                    const reelHTML = buildAdReel(i, pName, price, shgName, imgDataUrl, adLang, cultContext);
+
+                    card.innerHTML = `
+        <div class="sel-check">✓</div>
+        ${reelHTML}
+        <div class="ad-footer">
+          <div class="ad-footer-left">
+            <div class="ad-vtag">Variant ${i + 1}</div>
+            <div class="ad-vname">${name}</div>
+          </div>
+          <div class="ad-dl-btn" onclick="event.stopPropagation(); singleDownload(${i})">⬇</div>
+        </div>`;
+
+                    card.addEventListener('click', () =>
+                        openModal(i, pName, price, shgName, imgDataUrl, adLang, cultContext)
+                    );
+                    grid.appendChild(card);
+                });
+
+                document.getElementById('results').classList.add('show');
+                setTimeout(() => {
+                    document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 120);
+            }
+
+            if (uploadedFiles.length > 0) {
+                // Convert to base64 so the data URL is permanent (blob URLs expire)
+                const reader = new FileReader();
+                reader.onload = e => renderCards(e.target.result);
+                reader.readAsDataURL(uploadedFiles[0]);
+            } else {
+                renderCards(null);
+            }
+        }
+
+        function openModal(i, pName, price, shgName, imgDataUrl, adLang, cultContext) {
+            document.querySelectorAll('.ad-card').forEach((c, ci) => c.classList.toggle('selected-ad', ci === i));
+            const lang = adLang || currentLang;
+            const html = buildAdReel(i, pName, price, shgName, imgDataUrl, lang, cultContext || '');
+            document.getElementById('modalContent').innerHTML = html;
+            document.getElementById('modalOverlay').classList.add('open');
+        }
+
+        function closeModal(e) {
+            if (e.target === document.getElementById('modalOverlay'))
+                document.getElementById('modalOverlay').classList.remove('open');
+        }
+
+        function singleDownload(i) {
+            showToast();
+        }
+
+        function previewAd(i, name) {
+            const cards = document.querySelectorAll('.ad-card');
+            cards[i].style.transform = 'scale(0.97)';
+            setTimeout(() => { cards[i].style.transform = ''; }, 150);
+        }
+
+        function downloadAll() {
+            showToast();
+        }
+
+        function showToast() {
+            const t = document.getElementById('toast');
+            t.textContent = CONTENT[currentLang].toastMsg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 3200);
+        }
+
+        function resetForm() {
+            uploadedFiles = [];
+            renderThumbs();
+            document.getElementById('uploadZone').style.display = 'flex';
+            document.getElementById('thumbGrid').style.display = 'none';
+            document.getElementById('fld-pname').value = '';
+            document.getElementById('fld-price').value = '';
+            document.getElementById('fld-desc').value = '';
+            document.getElementById('fld-shg').value = '';
+            document.getElementById('fld-cat').selectedIndex = 0;
+            // Reset language chips — re-select Hindi
+            document.querySelectorAll('#lang-chips .chip').forEach((c, i) => c.classList.toggle('sel', i === 0));
+            selectedAdLang = 'hi';
+            // Reset ALL cultural tags (festival + daily + other)
+            document.querySelectorAll('#cult-tags .ctag, #daily-tags .ctag').forEach(t => t.classList.remove('sel'));
+            document.querySelector('#cult-tags .ctag[data-val="diwali"]').classList.add('sel');
+            const otherTag = document.getElementById('ctag-other');
+            if (otherTag) otherTag.classList.remove('sel');
+            const wrap = document.getElementById('cult-other-wrap');
+            if (wrap) wrap.style.display = 'none';
+            const cultCustom = document.getElementById('fld-cult-custom');
+            if (cultCustom) cultCustom.value = '';
+            // Reset progress + results
+            document.getElementById('progWrap').classList.remove('show');
+            document.getElementById('progBar').style.width = '0%';
+            document.getElementById('results').classList.remove('show');
+            ['p1', 'p2', 'p3', 'p4'].forEach(s => document.getElementById(s).className = 'pstep');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+
+</html>
