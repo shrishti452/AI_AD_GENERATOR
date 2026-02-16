@@ -3,15 +3,15 @@ import requests
 
 app = Flask(__name__)
 
-# 🔑 paste your openrouter api key here
-API_KEY = "sk-or-v1-28b...aaf"
+# 🔑 PASTE YOUR OPENROUTER API KEY HERE
+API_KEY = "Your_API_KEY"
 
-# check server running
+# check backend running
 @app.route("/")
 def home():
     return "AI Ad Generator Backend Running 🚀"
 
-# main AI route
+# AI generate route
 @app.route("/generate", methods=["POST"])
 def generate():
 
@@ -31,6 +31,7 @@ def generate():
     - headline
     - description
     - tagline
+    - short 10 sec voiceover script for advertisement
     """
 
     url = "https://openrouter.ai/api/v1/chat/completions"
@@ -47,11 +48,15 @@ def generate():
         ]
     }
 
-    response = requests.post(url, headers=headers, json=body)
-    result = response.json()
+    # error safe block
+    try:
+        response = requests.post(url, headers=headers, json=body)
+        result = response.json()
 
-    ad_text = result["choices"][0]["message"]["content"]
+        ad_text = result["choices"][0]["message"]["content"]
+        return jsonify({"ad": ad_text})
 
-    return jsonify({"ad": ad_text})
+    except:
+        return jsonify({"ad": "AI is busy right now. Please try again."})
 
 app.run(debug=True)
