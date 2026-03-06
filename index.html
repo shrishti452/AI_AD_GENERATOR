@@ -1,0 +1,3816 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AD ALCHEMY Ad Generator</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <style>
+        :root {
+            --saffron: #FF5500;
+            --deeprose: #FF0080;
+            --gold: #FFD000;
+            --teal: #00FFD0;
+            --violet: #9B00FF;
+            --cyan: #00CFFF;
+            --lime: #AAFF00;
+            --coral: #FF4060;
+            --darkbg: #07050F;
+            --cardbg: #100D22;
+            --cardbg2: #18133A;
+            --text: #F5F0FF;
+            --muted: #A090D0;
+            --glow: rgba(255, 0, 128, 0.45);
+            --glowt: rgba(0, 255, 208, 0.4);
+            --glow2: rgba(155, 0, 255, 0.4);
+            --glow3: rgba(255, 208, 0, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--darkbg);
+            color: var(--text);
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before,
+        body::after {
+            content: '';
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        body::before {
+            width: 420px;
+            height: 420px;
+            background: radial-gradient(circle, rgba(255, 0, 128, 0.35), transparent 70%);
+            top: -80px;
+            left: -80px;
+            animation: drift1 8s ease-in-out infinite alternate;
+        }
+
+        body::after {
+            width: 380px;
+            height: 380px;
+            background: radial-gradient(circle, rgba(155, 0, 255, 0.3), transparent 70%);
+            bottom: -60px;
+            right: -60px;
+            animation: drift2 10s ease-in-out infinite alternate;
+        }
+
+        @keyframes drift1 {
+            to {
+                transform: translate(40px, 30px);
+            }
+        }
+
+        @keyframes drift2 {
+            to {
+                transform: translate(-40px, -30px);
+            }
+        }
+
+        .blob3,
+        .blob4 {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(90px);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .blob3 {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(155, 0, 255, 0.2), transparent 70%);
+            top: 40%;
+            left: -60px;
+            animation: drift1 12s ease-in-out infinite alternate;
+        }
+
+        .blob4 {
+            width: 260px;
+            height: 260px;
+            background: radial-gradient(circle, rgba(0, 207, 255, 0.18), transparent 70%);
+            top: 20%;
+            right: -40px;
+            animation: drift2 9s ease-in-out infinite alternate;
+        }
+
+        .lang-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 10px 18px;
+            background: rgba(7, 5, 15, 0.88);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 0, 128, 0.35);
+            box-shadow: 0 2px 20px rgba(155, 0, 255, 0.12);
+        }
+
+        .lang-pill {
+            display: flex;
+            background: var(--cardbg2);
+            border-radius: 50px;
+            border: 1.5px solid rgba(255, 208, 0, 0.4);
+            overflow: hidden;
+            box-shadow: 0 0 16px rgba(255, 208, 0, 0.2);
+        }
+
+        .lang-btn {
+            padding: 6px 18px;
+            font-size: 13px;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            border: none;
+            background: transparent;
+            color: var(--muted);
+            cursor: pointer;
+            transition: all 0.25s;
+            letter-spacing: 0.5px;
+        }
+
+        .lang-btn.active {
+            background: linear-gradient(135deg, var(--deeprose), var(--violet));
+            color: #fff;
+            border-radius: 50px;
+            box-shadow: 0 0 20px var(--glow);
+        }
+
+        .mode-selector-wrap {
+            position: relative;
+            z-index: 1;
+            max-width: 520px;
+            margin: 0 auto;
+            padding: 0 16px 20px;
+        }
+
+        .mode-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            background: linear-gradient(145deg, #130f28, #0e0b1f);
+            border-radius: 20px;
+            border: 1.5px solid rgba(255, 0, 128, 0.2);
+            overflow: hidden;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            position: relative;
+        }
+
+        .mode-btn {
+            padding: 18px 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            color: var(--muted);
+            font-family: 'Poppins', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s;
+            position: relative;
+            z-index: 1;
+        }
+
+        .mode-btn-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1.5px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+
+        .mode-btn-title {
+            font-family: 'Baloo 2', cursive;
+            font-size: 15px;
+            font-weight: 800;
+            letter-spacing: 0.3px;
+        }
+
+        .mode-btn-sub {
+            font-size: 11px;
+            color: #B0A0D8;
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        .mode-btn.active {
+            color: #fff;
+        }
+
+        .mode-btn.active .mode-btn-icon {
+            background: linear-gradient(135deg, var(--deeprose), var(--violet));
+            border-color: transparent;
+            box-shadow: 0 4px 24px var(--glow);
+        }
+
+        .mode-btn.active .mode-btn-sub {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .mode-divider {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 1px;
+            height: 60%;
+            background: rgba(255, 255, 255, 0.08);
+            z-index: 2;
+        }
+
+        .mode-selector::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 50%;
+            left: 0;
+            background: linear-gradient(135deg, rgba(255, 0, 128, 0.18), rgba(155, 0, 255, 0.12));
+            border-radius: 20px 0 0 20px;
+            transition: left 0.35s cubic-bezier(0.4, 0, 0.2, 1), border-radius 0.35s;
+            z-index: 0;
+        }
+
+        .mode-selector.dictate-active::before {
+            left: 50%;
+            border-radius: 0 20px 20px 0;
+        }
+
+        .dictate-panel {
+            display: none;
+            position: relative;
+            z-index: 1;
+            max-width: 520px;
+            margin: 0 auto;
+            padding: 0 16px;
+            animation: fadeUp 0.5s ease both;
+        }
+
+        .dictate-panel.show {
+            display: block;
+        }
+
+        .dictate-card {
+            background: var(--cardbg);
+            border: 1.5px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 28px 24px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        .dictate-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            border-radius: 24px 24px 0 0;
+            background: linear-gradient(90deg, var(--deeprose), var(--saffron), var(--gold));
+        }
+
+        .dictate-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            padding: 10px 0;
+        }
+
+        .dictate-title {
+            font-family: 'Baloo 2', cursive;
+            font-size: 20px;
+            font-weight: 800;
+            text-align: center;
+            background: linear-gradient(135deg, #fff 0%, var(--gold) 25%, var(--deeprose) 55%, var(--violet) 85%, var(--cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .dictate-hint {
+            font-size: 12.5px;
+            color: var(--muted);
+            text-align: center;
+            line-height: 1.7;
+            max-width: 320px;
+        }
+
+        .mic-btn-outer {
+            position: relative;
+            width: 110px;
+            height: 110px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mic-ripple {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: rgba(232, 51, 109, 0.2);
+            animation: micRipple 2s ease-in-out infinite;
+            opacity: 0;
+        }
+
+        .mic-ripple:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+
+        .mic-ripple:nth-child(3) {
+            animation-delay: 1s;
+        }
+
+        @keyframes micRipple {
+            0% {
+                transform: scale(0.7);
+                opacity: 0.7;
+            }
+
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        .mic-ripple.recording {
+            background: rgba(232, 51, 109, 0.35);
+            animation-duration: 1s;
+        }
+
+        .mic-btn {
+            position: relative;
+            z-index: 2;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            background: linear-gradient(135deg, var(--violet), var(--deeprose), var(--saffron));
+            box-shadow: 0 8px 32px var(--glow), 0 0 0 3px rgba(232, 51, 109, 0.2);
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+
+        .mic-btn:hover {
+            transform: scale(1.06);
+            box-shadow: 0 12px 40px var(--glow);
+        }
+
+        .mic-btn:active {
+            transform: scale(0.95);
+        }
+
+        .mic-btn.recording {
+            background: linear-gradient(135deg, #FF4455, var(--deeprose), var(--violet));
+            animation: micPulse 1s ease-in-out infinite;
+        }
+
+        @keyframes micPulse {
+
+            0%,
+            100% {
+                box-shadow: 0 8px 32px rgba(255, 68, 85, 0.5), 0 0 0 3px rgba(255, 68, 85, 0.3);
+            }
+
+            50% {
+                box-shadow: 0 8px 48px rgba(255, 68, 85, 0.8), 0 0 0 8px rgba(255, 68, 85, 0.1);
+            }
+        }
+
+        .mic-status {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--muted);
+            text-align: center;
+            min-height: 20px;
+            transition: color 0.3s;
+        }
+
+        .mic-status.recording {
+            color: #FF6B7A;
+        }
+
+        .mic-status.processing {
+            color: var(--gold);
+        }
+
+        .mic-status.done {
+            color: var(--teal);
+        }
+
+        .waveform {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            height: 36px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .waveform.show {
+            opacity: 1;
+        }
+
+        .wave-bar {
+            width: 4px;
+            border-radius: 4px;
+            background: linear-gradient(180deg, var(--violet), var(--deeprose), var(--saffron));
+            height: 8px;
+            transition: height 0.1s;
+        }
+
+        .transcript-float-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 5000;
+            align-items: flex-end;
+            justify-content: center;
+            padding: 0 12px 24px;
+            background: rgba(5, 3, 18, 0.55);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+        }
+
+        .transcript-float-overlay.show {
+            display: flex;
+            animation: tfoFadeIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes tfoFadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .transcript-float-card {
+            width: 100%;
+            max-width: 480px;
+            background: linear-gradient(145deg, #1e1040, #0d0820);
+            border: 1.5px solid rgba(255, 0, 128, 0.25);
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: 0 -4px 60px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+            animation: tfcSlideUp 0.4s cubic-bezier(0.34, 1.4, 0.64, 1);
+        }
+
+        @keyframes tfcSlideUp {
+            from {
+                transform: translateY(80px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .tfc-top-bar {
+            height: 3px;
+            background: linear-gradient(90deg, var(--violet), var(--deeprose), var(--saffron), var(--gold), var(--teal), var(--cyan));
+            background-size: 300% 100%;
+            animation: tfcBarShift 3s linear infinite;
+        }
+
+        @keyframes tfcBarShift {
+            0% {
+                background-position: 0% 0%;
+            }
+
+            100% {
+                background-position: 300% 0%;
+            }
+        }
+
+        .tfc-inner {
+            padding: 20px 20px 22px;
+        }
+
+        .tfc-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .tfc-mic-badge {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--violet), var(--deeprose));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            box-shadow: 0 4px 14px rgba(232, 51, 109, 0.4);
+            flex-shrink: 0;
+        }
+
+        .tfc-title-col {
+            flex: 1;
+        }
+
+        .tfc-title {
+            font-family: 'Baloo 2', cursive;
+            font-size: 14px;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: 0.2px;
+        }
+
+        .tfc-subtitle {
+            font-size: 10.5px;
+            color: var(--muted);
+            margin-top: 1px;
+            font-weight: 500;
+        }
+
+        .tfc-close-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 1.5px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--muted);
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .tfc-close-btn:hover {
+            border-color: var(--deeprose);
+            color: var(--deeprose);
+        }
+
+        .tfc-live-row {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            margin-bottom: 12px;
+        }
+
+        .tfc-live-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #FF4466;
+            box-shadow: 0 0 8px #FF4466;
+            animation: vsBlink 1s ease-in-out infinite;
+            flex-shrink: 0;
+        }
+
+        .tfc-live-dot.done {
+            background: var(--teal);
+            box-shadow: 0 0 8px var(--teal);
+            animation: none;
+        }
+
+        .tfc-live-label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            color: #FF6B7A;
+        }
+
+        .tfc-live-label.done {
+            color: var(--teal);
+        }
+
+        .tfc-text-wrap {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 14px 16px;
+            min-height: 72px;
+            max-height: 160px;
+            overflow-y: auto;
+            margin-bottom: 16px;
+            position: relative;
+        }
+
+        .tfc-text-wrap::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        .tfc-text-wrap::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, rgba(255, 0, 128, 0.6), rgba(155, 0, 255, 0.6));
+            border-radius: 10px;
+        }
+
+        .tfc-text {
+            font-size: 14.5px;
+            line-height: 1.65;
+            color: var(--text);
+            font-weight: 500;
+            word-break: break-word;
+        }
+
+        .tfc-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 16px;
+            background: var(--saffron);
+            border-radius: 2px;
+            vertical-align: middle;
+            margin-left: 2px;
+            animation: tfc-blink 0.9s step-end infinite;
+        }
+
+        .tfc-cursor.hide {
+            display: none;
+        }
+
+        @keyframes tfc-blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .tfc-placeholder {
+            font-size: 13px;
+            color: var(--muted);
+            font-style: italic;
+        }
+
+        .tfc-wave {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            height: 24px;
+            margin-bottom: 16px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .tfc-wave.show {
+            opacity: 1;
+        }
+
+        .tfc-wave-bar {
+            width: 3px;
+            border-radius: 3px;
+            background: linear-gradient(180deg, var(--violet), var(--deeprose), var(--saffron));
+            height: 6px;
+            transition: height 0.09s;
+        }
+
+        .tfc-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .tfc-btn-gen {
+            flex: 1;
+            padding: 14px 12px;
+            font-size: 15px;
+            font-weight: 800;
+            font-family: 'Baloo 2', cursive;
+            border: none;
+            border-radius: 14px;
+            background: linear-gradient(135deg, var(--violet), var(--deeprose), var(--saffron), var(--gold));
+            color: #fff;
+            cursor: pointer;
+            box-shadow: 0 6px 24px var(--glow);
+            transition: transform 0.15s, box-shadow 0.15s;
+            display: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tfc-btn-gen.show {
+            display: block;
+            animation: fadeUp 0.35s ease;
+        }
+
+        .tfc-btn-gen:hover {
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 10px 32px var(--glow);
+        }
+
+        .tfc-btn-gen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.22), transparent);
+            transition: left 0.4s;
+        }
+
+        .tfc-btn-gen:hover::before {
+            left: 160%;
+        }
+
+        .tfc-btn-redo {
+            padding: 14px 16px;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: 'Baloo 2', cursive;
+            border: 1.5px solid rgba(255, 255, 255, 0.15);
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--muted);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: none;
+        }
+
+        .tfc-btn-redo.show {
+            display: block;
+        }
+
+        .tfc-btn-redo:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(0, 207, 255, 0.08);
+        }
+
+        .dictate-actions {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .btn-use-transcript {
+            flex: 1;
+            padding: 13px;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: 'Baloo 2', cursive;
+            border: none;
+            border-radius: 14px;
+            background: linear-gradient(135deg, var(--violet), var(--deeprose), var(--saffron));
+            color: #0D0A1E;
+            cursor: pointer;
+            transition: all 0.25s;
+            display: none;
+        }
+
+        .btn-use-transcript.show {
+            display: block;
+        }
+
+        .btn-use-transcript:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px var(--glowt);
+        }
+
+        .btn-re-record {
+            padding: 13px 16px;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: 'Baloo 2', cursive;
+            border: 1.5px solid rgba(255, 255, 255, 0.15);
+            border-radius: 14px;
+            background: transparent;
+            color: var(--muted);
+            cursor: pointer;
+            transition: all 0.25s;
+            display: none;
+        }
+
+        .btn-re-record.show {
+            display: block;
+        }
+
+        .btn-re-record:hover {
+            border-color: var(--saffron);
+            color: var(--saffron);
+        }
+
+        .hero {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 100px 20px 48px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(135deg, rgba(255, 208, 0, 0.15), rgba(255, 0, 128, 0.1));
+            border: 1px solid rgba(255, 208, 0, 0.5);
+            border-radius: 50px;
+            padding: 6px 16px;
+            font-size: 11.5px;
+            font-weight: 600;
+            color: var(--gold);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            animation: fadeUp 0.6s ease both;
+            box-shadow: 0 0 20px rgba(255, 208, 0, 0.15);
+        }
+
+        .hero-title {
+            font-family: 'Baloo 2', cursive;
+            font-size: clamp(28px, 7vw, 52px);
+            font-weight: 800;
+            line-height: 1.15;
+            animation: fadeUp 0.7s 0.1s ease both;
+            background: linear-gradient(135deg, #fff 0%, var(--gold) 25%, var(--deeprose) 55%, var(--violet) 85%, var(--cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-sub {
+            font-size: clamp(13px, 3vw, 16px);
+            color: #C0B0E8;
+            margin-top: 12px;
+            max-width: 480px;
+            margin-inline: auto;
+            font-weight: 400;
+            line-height: 1.6;
+            animation: fadeUp 0.8s 0.2s ease both;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 520px;
+            margin: 0 auto;
+            padding: 0 16px 80px;
+        }
+
+        .step-card {
+            background: linear-gradient(145deg, #110e24, #0d0a1e);
+            border: 1.5px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 28px 24px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+            animation: fadeUp 0.7s ease both;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .step-card:hover {
+            border-color: rgba(255, 0, 128, 0.5);
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 0, 128, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        }
+
+        .step-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            border-radius: 24px 24px 0 0;
+        }
+
+        .step-card.s1::before {
+            background: linear-gradient(90deg, #FF5500, #FFD000, #FF0080);
+        }
+
+        .step-card.s2::before {
+            background: linear-gradient(90deg, #FF0080, #9B00FF, #00CFFF);
+        }
+
+        .step-card.s3::before {
+            background: linear-gradient(90deg, #00FFD0, #00CFFF, #AAFF00);
+        }
+
+        .step-card.s4::before {
+            background: linear-gradient(90deg, #FFD000, #FF5500, #FF0080);
+        }
+
+        .step-card.s1 {
+            animation-delay: 0.25s;
+        }
+
+        .step-card.s2 {
+            animation-delay: 0.35s;
+        }
+
+        .step-card.s3 {
+            animation-delay: 0.45s;
+        }
+
+        .step-card.s4 {
+            animation-delay: 0.55s;
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+
+        .step-num {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Baloo 2', cursive;
+            font-size: 18px;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .s1 .step-num {
+            background: linear-gradient(135deg, #FF5500, #FFD000);
+        }
+
+        .s2 .step-num {
+            background: linear-gradient(135deg, #FF0080, #9B00FF);
+        }
+
+        .s3 .step-num {
+            background: linear-gradient(135deg, #00FFD0, #00CFFF);
+            color: #07050F;
+        }
+
+        .s4 .step-num {
+            background: linear-gradient(135deg, #FFD000, #FF0080);
+        }
+
+        .step-label {
+            font-size: 17px;
+            font-weight: 700;
+            font-family: 'Baloo 2', cursive;
+        }
+
+        .step-desc {
+            font-size: 12.5px;
+            color: #B0A0D8;
+            margin-top: 2px;
+        }
+
+        .upload-zone {
+            border: 2px dashed rgba(255, 0, 128, 0.45);
+            border-radius: 16px;
+            padding: 32px 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(255, 0, 128, 0.05);
+            position: relative;
+        }
+
+        .upload-zone:hover,
+        .upload-zone.drag {
+            border-color: var(--deeprose);
+            background: rgba(255, 0, 128, 0.1);
+            transform: scale(1.01);
+            box-shadow: 0 0 24px rgba(255, 0, 128, 0.2);
+        }
+
+        .upload-zone input {
+            display: none;
+        }
+
+        .upload-icon {
+            font-size: 46px;
+            margin-bottom: 10px;
+            display: block;
+            animation: pulse-icon 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-icon {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.07);
+            }
+        }
+
+        .upload-zone h3 {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .upload-zone p {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .upload-zone .browse-link {
+            color: var(--cyan);
+            font-weight: 600;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .thumb-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .thumb {
+            aspect-ratio: 1;
+            border-radius: 10px;
+            background: var(--cardbg2);
+            border: 1.5px solid rgba(255, 255, 255, 0.08);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .thumb .rm {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background: rgba(255, 0, 128, 0.9);
+            border: none;
+            color: #fff;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .thumb-add {
+            aspect-ratio: 1;
+            border-radius: 10px;
+            background: transparent;
+            border: 1.5px dashed rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: var(--muted);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .thumb-add:hover {
+            border-color: var(--saffron);
+            color: var(--saffron);
+        }
+
+        .field-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .field-row.single {
+            grid-template-columns: 1fr;
+        }
+
+        .field-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .field-group label {
+            font-size: 11.5px;
+            font-weight: 600;
+            color: var(--cyan);
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .field-group input,
+        .field-group select,
+        .field-group textarea {
+            background: linear-gradient(145deg, #1c1740, #141030);
+            border: 1.5px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 12px 14px;
+            color: var(--text);
+            font-family: 'Poppins', sans-serif;
+            font-size: 13.5px;
+            outline: none;
+            transition: border-color 0.25s, box-shadow 0.25s;
+            width: 100%;
+        }
+
+        .field-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .field-group input:focus,
+        .field-group select:focus,
+        .field-group textarea:focus {
+            border-color: var(--deeprose);
+            box-shadow: 0 0 0 3px rgba(255, 0, 128, 0.2), 0 0 16px rgba(255, 0, 128, 0.1);
+        }
+
+        .field-group select option {
+            background: #1E1640;
+        }
+
+        .chip-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        .chip {
+            padding: 7px 14px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+            border: 1.5px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--muted);
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .chip:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+        }
+
+        .chip.sel {
+            background: linear-gradient(135deg, var(--deeprose), var(--violet));
+            border-color: transparent;
+            color: #fff;
+            box-shadow: 0 4px 18px var(--glow);
+        }
+
+        .slider-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .slider-row input[type=range] {
+            flex: 1;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 5px;
+            border-radius: 10px;
+            background: var(--cardbg2);
+            outline: none;
+            border: none;
+            padding: 0;
+        }
+
+        .slider-row input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--deeprose), var(--violet));
+            cursor: pointer;
+            box-shadow: 0 0 14px var(--glow);
+        }
+
+        .slider-val {
+            min-width: 52px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--gold);
+            background: rgba(255, 208, 0, 0.15);
+            border-radius: 8px;
+            padding: 4px 8px;
+            text-shadow: 0 0 10px rgba(255, 208, 0, 0.6);
+        }
+
+        .btn-generate {
+            width: 100%;
+            padding: 18px;
+            font-size: 17px;
+            font-weight: 800;
+            font-family: 'Baloo 2', cursive;
+            border: none;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--violet) 0%, var(--deeprose) 40%, var(--saffron) 75%, var(--gold) 100%);
+            color: #fff;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 6px 32px var(--glow), 0 0 0 1px rgba(255, 255, 255, 0.12) inset;
+            transition: transform 0.15s, box-shadow 0.15s;
+            letter-spacing: 0.3px;
+            margin-bottom: 20px;
+        }
+
+        .btn-generate:hover {
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 10px 40px var(--glow);
+        }
+
+        .btn-generate:active {
+            transform: translateY(0) scale(0.99);
+        }
+
+        .btn-generate:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-generate::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.4s;
+        }
+
+        .btn-generate:hover::before {
+            left: 160%;
+        }
+
+        .progress-wrap {
+            display: none;
+            margin-bottom: 20px;
+        }
+
+        .progress-wrap.show {
+            display: block;
+            animation: fadeUp 0.4s ease;
+        }
+
+        .progress-bar-bg {
+            background: rgba(155, 0, 255, 0.12);
+            border-radius: 50px;
+            height: 10px;
+            overflow: hidden;
+            margin-bottom: 10px;
+            border: 1px solid rgba(155, 0, 255, 0.25);
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--violet), var(--deeprose), var(--saffron), var(--gold), var(--teal));
+            background-size: 200% 100%;
+            border-radius: 50px;
+            width: 0%;
+            transition: width 0.4s ease;
+            box-shadow: 0 0 16px var(--glow);
+            animation: progressShine 2s linear infinite;
+        }
+
+        @keyframes progressShine {
+            0% {
+                background-position: 0% 0%;
+            }
+
+            100% {
+                background-position: 200% 0%;
+            }
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: var(--muted);
+            padding: 0 2px;
+        }
+
+        .progress-steps .pstep.done {
+            color: var(--teal);
+            text-shadow: 0 0 10px rgba(0, 255, 208, 0.6);
+        }
+
+        .progress-steps .pstep.active {
+            color: var(--gold);
+            font-weight: 600;
+            text-shadow: 0 0 10px rgba(255, 208, 0, 0.6);
+        }
+
+        .error-box {
+            background: rgba(255, 68, 85, 0.1);
+            border: 1.5px solid rgba(255, 68, 85, 0.4);
+            border-radius: 14px;
+            padding: 14px 18px;
+            color: #FF6B7A;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 16px;
+            display: none;
+            animation: fadeUp 0.3s ease;
+        }
+
+        .error-box.show {
+            display: block;
+        }
+
+        .results-section {
+            display: none;
+        }
+
+        .results-section.show {
+            display: block;
+            animation: fadeUp 0.5s ease;
+        }
+
+        .result-title {
+            font-family: 'Baloo 2', cursive;
+            font-size: 22px;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 6px;
+            background: linear-gradient(135deg, var(--gold), var(--teal));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .result-sub {
+            text-align: center;
+            font-size: 12px;
+            color: var(--muted);
+            margin-bottom: 18px;
+        }
+
+        .ad-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+            max-width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .ad-reel {
+            width: 100%;
+            aspect-ratio: 9/16;
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+            background: #000;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+        }
+
+        .photo-dots {
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 5px;
+            z-index: 20;
+        }
+
+        .photo-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.35);
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .photo-dot.active {
+            background: #fff;
+            transform: scale(1.3);
+        }
+
+        .photo-count-badge {
+            position: absolute;
+            top: 56px;
+            right: 14px;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            padding: 4px 10px;
+            font-size: 10px;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .vs-scene {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+            z-index: 1;
+        }
+
+        .vs-scene.active {
+            opacity: 1;
+            z-index: 2;
+        }
+
+        .vs-scene-1 .vs-bg-photos {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .vs-scene-1 .vs-bg-photo {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+
+        .vs-scene-1 .vs-bg-photo.shown {
+            opacity: 1;
+        }
+
+        .vs-scene-1 .vs-bg-placeholder {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .vs-scene-1 .vs-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, 0) 35%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, .85) 100%);
+            z-index: 1;
+        }
+
+        .vs-scene-1 .vs-brand-bar {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            right: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 2;
+        }
+
+        .vs-brand-pill {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            padding: 5px 12px 5px 8px;
+            font-family: 'Baloo 2', cursive;
+            font-size: 10px;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .vs-live-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #FF6B1A;
+            box-shadow: 0 0 8px #FF6B1A;
+            animation: vsBlink 1.2s ease-in-out infinite;
+        }
+
+        @keyframes vsBlink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.15;
+            }
+        }
+
+        .vs-alchemy-tag {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            padding: 5px 12px;
+            font-size: 9px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .vs-scene-1 .vs-product-name-bottom {
+            position: absolute;
+            bottom: 20px;
+            left: 14px;
+            right: 14px;
+            z-index: 2;
+        }
+
+        .vs-s1-pname {
+            font-family: 'Baloo 2', cursive;
+            font-size: 22px;
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.2;
+            text-shadow: 0 2px 16px rgba(0, 0, 0, 1);
+        }
+
+        .vs-s1-sub {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 4px;
+            text-shadow: 0 1px 8px rgba(0, 0, 0, 1);
+        }
+
+        .vs-scene-2 {
+            padding: 0;
+            align-items: stretch;
+            justify-content: flex-start;
+        }
+
+        .vs-scene-2 .vs-s2-photo-half {
+            width: 100%;
+            height: 42%;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .vs-scene-2 .vs-s2-photo-half .vs-s2-ph-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(0, 0, 0, .2) 0%, rgba(13, 10, 30, .95) 100%);
+            z-index: 1;
+        }
+
+        .vs-scene-2 .vs-s2-photo {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+
+        .vs-scene-2 .vs-s2-photo.shown {
+            opacity: 1;
+        }
+
+        .vs-scene-2 .vs-s2-placeholder {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 52px;
+        }
+
+        .vs-s2-content {
+            flex: 1;
+            background: var(--darkbg);
+            padding: 10px 12px 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            overflow: hidden;
+            min-height: 0;
+        }
+
+        .vs-s2-scroll {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding-right: 2px;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 0, 128, 0.4) transparent;
+        }
+
+        .vs-s2-scroll::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        .vs-s2-scroll::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, rgba(255, 0, 128, 0.6), rgba(155, 0, 255, 0.6));
+            border-radius: 10px;
+        }
+
+        .vs-s2-pinned {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 8px;
+            flex-shrink: 0;
+        }
+
+        .vs-s2-pin-chip {
+            flex: 1;
+            padding: 8px 10px;
+            border-radius: 10px;
+            background: var(--cardbg2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .vs-s2-pin-label {
+            font-size: 8px;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+        }
+
+        .vs-s2-pin-val {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--text);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .vs-feat-section {
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            color: var(--muted);
+            padding: 6px 4px 4px;
+            margin-top: 2px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            flex-shrink: 0;
+        }
+
+        .vs-feat-section::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.07);
+        }
+
+        .vs-feat-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 10px;
+            border-radius: 9px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            opacity: 0;
+            transform: translateX(-16px);
+            transition: opacity 0.35s ease, transform 0.35s ease;
+            flex-shrink: 0;
+        }
+
+        .vs-feat-pill.vis {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .vs-feat-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .vs-feat-text {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text);
+            line-height: 1.3;
+        }
+
+        .vs-s2-fade {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 28px;
+            background: linear-gradient(transparent, var(--darkbg));
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .vs-s2-detail-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            border-radius: 12px;
+            background: var(--cardbg2);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            opacity: 0;
+            transform: translateX(-24px);
+            transition: all 0.4s ease;
+        }
+
+        .vs-s2-detail-row.vis {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .vs-s2-det-icon {
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .vs-s2-det-text {
+            flex: 1;
+        }
+
+        .vs-s2-det-label {
+            font-size: 9px;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+        }
+
+        .vs-s2-det-val {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text);
+            margin-top: 1px;
+        }
+
+        .vs-scene-3 {
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+        }
+
+        .vs-s3-bg {
+            position: absolute;
+            inset: 0;
+        }
+
+        .vs-s3-bg .vs-s3-photo {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            filter: blur(12px) brightness(0.3);
+            transform: scale(1.1);
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+
+        .vs-s3-bg .vs-s3-photo.shown {
+            opacity: 1;
+        }
+
+        .vs-s3-bg .vs-s3-placeholder {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            opacity: 0.15;
+        }
+
+        .vs-s3-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 24px 20px;
+            width: 100%;
+        }
+
+        .vs-s3-badge {
+            padding: 5px 16px;
+            border-radius: 50px;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+            opacity: 0;
+            transform: translateY(-16px);
+            transition: all 0.5s ease 0.1s;
+        }
+
+        .vs-s3-badge.vis {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .vs-s3-pname {
+            font-family: 'Baloo 2', cursive;
+            font-size: 20px;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 8px;
+            opacity: 0;
+            transform: translateY(16px);
+            transition: all 0.5s ease 0.2s;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+        }
+
+        .vs-s3-pname.vis {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .vs-s3-divider {
+            width: 40px;
+            height: 2px;
+            border-radius: 2px;
+            margin: 8px auto 16px;
+            opacity: 0;
+            transition: all 0.4s ease 0.35s;
+        }
+
+        .vs-s3-divider.vis {
+            opacity: 1;
+        }
+
+        .vs-s3-price-wrap {
+            opacity: 0;
+            transform: scale(0.6);
+            transition: all 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) 0.45s;
+            margin-bottom: 20px;
+        }
+
+        .vs-s3-price-wrap.vis {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .vs-s3-price {
+            font-family: 'Baloo 2', cursive;
+            font-size: 52px;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .vs-s3-mrp {
+            font-size: 16px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.4);
+            text-decoration: line-through;
+            margin-left: 6px;
+            vertical-align: middle;
+        }
+
+        .vs-s3-save {
+            font-size: 11px;
+            font-weight: 700;
+            margin-top: 4px;
+            opacity: 0.85;
+        }
+
+        .vs-s3-cta {
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: 800;
+            font-family: 'Poppins', sans-serif;
+            color: #fff;
+            border: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.6s;
+            cursor: pointer;
+        }
+
+        .vs-s3-cta.vis {
+            opacity: 1;
+            transform: translateY(0);
+            animation: vsCtaPulse 2s 1.1s ease-in-out infinite;
+        }
+
+        @keyframes vsCtaPulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 107, 26, 0.6);
+            }
+
+            50% {
+                box-shadow: 0 0 0 10px rgba(255, 107, 26, 0);
+            }
+        }
+
+        .vs-scene-dots {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 5px;
+            z-index: 20;
+        }
+
+        .vs-dot {
+            width: 28px;
+            height: 3px;
+            border-radius: 2px;
+            background: rgba(255, 255, 255, 0.3);
+            transition: background 0.3s;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .vs-dot.done {
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .vs-dot.active {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .vs-dot.active::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            left: 0;
+            background: #fff;
+            animation: vsDotFill var(--dur, 3s) linear forwards;
+        }
+
+        @keyframes vsDotFill {
+            0% {
+                width: 0;
+            }
+
+            100% {
+                width: 100%;
+            }
+        }
+
+        .vs-replay-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 30;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s;
+        }
+
+        .vs-replay-overlay.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .vs-replay-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            color: #fff;
+            font-size: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.2s;
+        }
+
+        .vs-replay-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .vs-replay-text {
+            font-family: 'Baloo 2', cursive;
+            font-size: 13px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(14px);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+
+        .modal-overlay.open {
+            display: flex;
+            animation: fadeUp 0.28s ease;
+        }
+
+        .modal-box {
+            background: var(--cardbg);
+            border-radius: 24px;
+            overflow: hidden;
+            max-width: 300px;
+            width: 100%;
+            border: 1.5px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.85);
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 30;
+            background: rgba(0, 0, 0, 0.65);
+            border: none;
+            color: #fff;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-video-frame {
+            width: 100%;
+        }
+
+        .btn-download {
+            width: 100%;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 700;
+            font-family: 'Baloo 2', cursive;
+            border: 2px solid var(--teal);
+            border-radius: 16px;
+            background: rgba(0, 255, 208, 0.1);
+            color: var(--teal);
+            cursor: pointer;
+            transition: all 0.25s;
+            letter-spacing: 0.3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-download:hover {
+            background: linear-gradient(135deg, var(--teal), var(--cyan));
+            color: #07050F;
+            box-shadow: 0 0 28px var(--glowt);
+        }
+
+        .btn-secondary {
+            width: 100%;
+            padding: 14px;
+            margin-top: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            border: 1.5px solid rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            background: transparent;
+            color: var(--muted);
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--deeprose);
+            color: var(--deeprose);
+            box-shadow: 0 0 16px var(--glow);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(80px);
+            background: linear-gradient(135deg, var(--teal), var(--cyan));
+            color: #0D0A1E;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: 'Baloo 2', cursive;
+            box-shadow: 0 8px 32px var(--glowt);
+            z-index: 9999;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            white-space: nowrap;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(22px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 4px 0 16px;
+        }
+
+        .divider span {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--cyan);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            white-space: nowrap;
+            opacity: 0.8;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--darkbg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, rgba(255, 0, 128, 0.6), rgba(155, 0, 255, 0.6));
+            border-radius: 10px;
+        }
+
+        @media (max-width: 380px) {
+            .field-row {
+                grid-template-columns: 1fr;
+            }
+
+            .ad-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .cultural-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 10px;
+        }
+
+        .ctag {
+            padding: 5px 12px;
+            border-radius: 50px;
+            font-size: 11.5px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1.5px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--muted);
+            transition: all 0.2s;
+        }
+
+        .ctag:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            text-shadow: 0 0 8px rgba(255, 208, 0, 0.5);
+        }
+
+        .ctag.sel {
+            background: rgba(255, 208, 0, 0.18);
+            border-color: var(--gold);
+            color: var(--gold);
+            box-shadow: 0 0 14px rgba(255, 208, 0, 0.4), inset 0 0 8px rgba(255, 208, 0, 0.08);
+        }
+
+        .cult-section-label {
+            font-size: 10.5px;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 7px;
+        }
+
+        #typing-section {
+            display: block;
+        }
+
+        #typing-section.hidden {
+            display: none;
+        }
+
+        .dictate-ad-photo-wrap {
+            position: absolute;
+            inset: 0;
+        }
+
+        .dictate-ad-photo {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            opacity: 0;
+            transition: opacity 0.9s ease;
+        }
+
+        .dictate-ad-photo.shown {
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="blob3"></div>
+    <div class="blob4"></div>
+    <div class="lang-bar">
+        <div class="lang-pill">
+            <button class="lang-btn active" id="btn-hi" onclick="setLang('hi')">हिंदी</button>
+            <button class="lang-btn" id="btn-en" onclick="setLang('en')">English</button>
+        </div>
+    </div>
+
+    <div class="hero">
+        <div class="hero-badge">⚗️ Turn Photos Into Gold · AD ALCHEMY</div>
+        <h1 class="hero-title" id="txt-title">AD ALCHEMY</h1>
+        <p class="hero-sub" id="txt-sub">सिर्फ़ फ़ोटो अपलोड करें और पेशेवर विज्ञापन तैयार करें — बिना किसी एजेंसी के</p>
+    </div>
+
+    <div class="container">
+
+        <div class="mode-selector-wrap" style="margin-bottom:20px;">
+            <div class="mode-selector" id="modeSelector">
+                <div class="mode-divider"></div>
+                <button class="mode-btn active" id="modeTyping" onclick="setMode('typing')">
+                    <div class="mode-btn-icon">⌨️</div>
+                    <div class="mode-btn-title" id="mode-typing-title">Typing</div>
+                    <div class="mode-btn-sub" id="mode-typing-sub">Details खुद टाइप करें</div>
+                </button>
+                <button class="mode-btn" id="modeDictate" onclick="setMode('dictate')">
+                    <div class="mode-btn-icon">🎙️</div>
+                    <!-- CHANGE 1: AREA → DICTATE -->
+                    <div class="mode-btn-title" id="mode-dictate-title">DICTATE</div>
+                    <div class="mode-btn-sub" id="mode-dictate-sub">बोलकर Ad बनाएं</div>
+                </button>
+            </div>
+        </div>
+
+        <div class="dictate-panel" id="dictatePanel">
+            <div class="step-card s1" style="margin-bottom:14px;">
+                <div class="step-header">
+                    <div class="step-num" style="background:linear-gradient(135deg,#FF6B1A,#F5A623);">1</div>
+                    <div>
+                        <div class="step-label" id="d-step1-title">📸 उत्पाद की फ़ोटो अपलोड करें</div>
+                        <div class="step-desc" id="d-step1-desc">अपने उत्पाद की 1–5 फ़ोटो जोड़ें</div>
+                    </div>
+                </div>
+                <div class="upload-zone" id="dUploadZone" onclick="document.getElementById('dFileInput').click()"
+                    ondragover="event.preventDefault(); this.classList.add('drag')"
+                    ondragleave="this.classList.remove('drag')" ondrop="handleDictDrop(event)">
+                    <input type="file" id="dFileInput" accept="image/*" multiple
+                        onchange="handleDictFiles(this.files)" />
+                    <span class="upload-icon">🖼️</span>
+                    <h3 id="d-uz-h">फ़ोटो यहाँ खींचें या चुनें</h3>
+                    <p>JPG, PNG · Max 10MB · <span class="browse-link">Browse</span></p>
+                </div>
+                <div class="thumb-grid" id="dThumbGrid" style="display:none"></div>
+            </div>
+
+            <div class="dictate-card">
+                <div class="dictate-center">
+                    <div class="dictate-title" id="dictate-main-title">🎙️ बोलकर Ad बनाएं</div>
+                    <div class="dictate-hint" id="dictate-hint-txt">
+                        माइक बटन दबाएं और अपने उत्पाद के बारे में बताएं —<br>
+                        नाम, कीमत, विशेषताएं, सब कुछ बोलें!
+                    </div>
+
+                    <div class="mic-btn-outer" id="micOuter">
+                        <div class="mic-ripple" id="ripple1"></div>
+                        <div class="mic-ripple" id="ripple2"></div>
+                        <div class="mic-ripple" id="ripple3"></div>
+                        <button class="mic-btn" id="micBtn" onclick="toggleRecording()">🎤</button>
+                    </div>
+
+                    <div class="waveform" id="waveform">
+                        <div class="wave-bar" id="wb1"></div>
+                        <div class="wave-bar" id="wb2"></div>
+                        <div class="wave-bar" id="wb3"></div>
+                        <div class="wave-bar" id="wb4"></div>
+                        <div class="wave-bar" id="wb5"></div>
+                        <div class="wave-bar" id="wb6"></div>
+                        <div class="wave-bar" id="wb7"></div>
+                        <div class="wave-bar" id="wb8"></div>
+                        <div class="wave-bar" id="wb9"></div>
+                    </div>
+
+                    <div class="mic-status" id="micStatus">माइक बटन दबाएं</div>
+
+                    <div id="transcriptBox" style="display:none;">
+                        <div id="transcriptText"></div>
+                    </div>
+                    <div class="dictate-actions" style="display:none;">
+                        <button class="btn-use-transcript" id="btnUseTranscript" onclick="useDictateForAd()">
+                            ✨ <span id="use-transcript-txt">इससे Ad बनाएं</span>
+                        </button>
+                        <button class="btn-re-record" id="btnReRecord" onclick="resetRecording()">
+                            🔄 <span id="re-record-txt">फिर से</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FLOATING TRANSCRIPT OVERLAY -->
+        <div class="transcript-float-overlay" id="transcriptFloatOverlay">
+            <div class="transcript-float-card">
+                <div class="tfc-top-bar"></div>
+                <div class="tfc-inner">
+                    <div class="tfc-header">
+                        <div class="tfc-mic-badge">🎤</div>
+                        <div class="tfc-title-col">
+                            <div class="tfc-title" id="tfc-title-txt">आपकी आवाज़ सुन रहे हैं…</div>
+                            <div class="tfc-subtitle" id="tfc-sub-txt">बोलते रहें, सब note हो रहा है</div>
+                        </div>
+                        <button class="tfc-close-btn" onclick="stopRecordingFromFloat()">✕</button>
+                    </div>
+
+                    <div class="tfc-live-row">
+                        <div class="tfc-live-dot" id="tfcLiveDot"></div>
+                        <div class="tfc-live-label" id="tfcLiveLabel">LIVE REC</div>
+                    </div>
+
+                    <div class="tfc-wave" id="tfcWave">
+                        <div class="tfc-wave-bar" id="tw1"></div>
+                        <div class="tfc-wave-bar" id="tw2"></div>
+                        <div class="tfc-wave-bar" id="tw3"></div>
+                        <div class="tfc-wave-bar" id="tw4"></div>
+                        <div class="tfc-wave-bar" id="tw5"></div>
+                        <div class="tfc-wave-bar" id="tw6"></div>
+                        <div class="tfc-wave-bar" id="tw7"></div>
+                        <div class="tfc-wave-bar" id="tw8"></div>
+                        <div class="tfc-wave-bar" id="tw9"></div>
+                        <div class="tfc-wave-bar" id="tw10"></div>
+                        <div class="tfc-wave-bar" id="tw11"></div>
+                        <div class="tfc-wave-bar" id="tw12"></div>
+                    </div>
+
+                    <div class="tfc-text-wrap">
+                        <div class="tfc-text" id="tfcText">
+                            <span class="tfc-placeholder" id="tfcPlaceholder">अपने उत्पाद का नाम, कीमत और खूबियाँ
+                                बोलें…</span>
+                            <span id="tfcTranscriptContent" style="display:none;"></span>
+                            <span class="tfc-cursor" id="tfcCursor"></span>
+                        </div>
+                    </div>
+
+                    <div class="tfc-actions">
+                        <button class="tfc-btn-gen" id="tfcBtnGen" onclick="useDictateForAd()">
+                            <span id="tfc-gen-txt">✨ इससे Ad बनाएं</span>
+                        </button>
+                        <button class="tfc-btn-redo" id="tfcBtnRedo" onclick="resetRecordingFromFloat()">
+                            🔄 <span id="tfc-redo-txt">फिर से</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TYPING SECTION -->
+        <div id="typing-section">
+            <div class="step-card s1">
+                <div class="step-header">
+                    <div class="step-num">1</div>
+                    <div>
+                        <div class="step-label" id="step1-title">📸 उत्पाद की फ़ोटो अपलोड करें</div>
+                        <div class="step-desc" id="step1-desc">अपने उत्पाद की 1–5 फ़ोटो जोड़ें</div>
+                    </div>
+                </div>
+                <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()"
+                    ondragover="event.preventDefault(); this.classList.add('drag')"
+                    ondragleave="this.classList.remove('drag')" ondrop="handleDrop(event)">
+                    <input type="file" id="fileInput" accept="image/*" multiple onchange="handleFiles(this.files)" />
+                    <span class="upload-icon">🖼️</span>
+                    <h3 id="uz-h">फ़ोटो यहाँ खींचें या चुनें</h3>
+                    <p>JPG, PNG · Max 10MB · <span class="browse-link">Browse</span></p>
+                </div>
+                <div class="thumb-grid" id="thumbGrid" style="display:none"></div>
+            </div>
+
+            <div class="step-card s2">
+                <div class="step-header">
+                    <div class="step-num">2</div>
+                    <div>
+                        <div class="step-label" id="step2-title">📝 उत्पाद विवरण</div>
+                        <div class="step-desc" id="step2-desc">आपके उत्पाद के बारे में बताएं</div>
+                    </div>
+                </div>
+                <div class="field-row">
+                    <div class="field-group">
+                        <label id="lbl-pname">उत्पाद का नाम</label>
+                        <input type="text" id="fld-pname" placeholder="जैसे: हाथ से बुनी शाल" />
+                    </div>
+                    <div class="field-group">
+                        <label id="lbl-price">कीमत (₹)</label>
+                        <input type="number" id="fld-price" placeholder="450" />
+                    </div>
+                </div>
+                <div class="field-row single">
+                    <div class="field-group">
+                        <label id="lbl-desc">उत्पाद की विशेषताएं</label>
+                        <textarea id="fld-desc" placeholder="जैसे: 100% ऊनी, हाथ से बनी, गर्म और टिकाऊ"></textarea>
+                    </div>
+                </div>
+                <div class="field-row single">
+                    <div class="field-group">
+                        <label id="lbl-cat">Category / श्रेणी</label>
+                        <select id="fld-cat">
+                            <option value="">-- चुनें --</option>
+                            <option value="textile">🧵 हस्तशिल्प / कपड़ा</option>
+                            <option value="food">🍯 खाद्य / अचार / मसाले</option>
+                            <option value="beauty">🌿 सौंदर्य / हर्बल</option>
+                            <option value="pottery">🏺 मिट्टी / कुम्हारी</option>
+                            <option value="jewelry">💍 आभूषण / गहने</option>
+                            <option value="household">🏠 घरेलू उत्पाद</option>
+                            <option value="agri">🌾 कृषि / जैविक उत्पाद</option>
+                            <option value="other">📦 अन्य / Other</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step-card s3">
+                <div class="step-header">
+                    <div class="step-num">3</div>
+                    <div>
+                        <div class="step-label" id="step3-title">🎨 Ad कस्टमाइज़ करें</div>
+                        <div class="step-desc" id="step3-desc">भाषा, स्थान और भाव चुनें</div>
+                    </div>
+                </div>
+                <div class="divider"><span id="div-lang">विज्ञापन की भाषा</span></div>
+                <div class="chip-row" id="lang-chips">
+                    <div class="chip sel" data-val="hindi">हिंदी</div>
+                    <div class="chip" data-val="english">English</div>
+                    <div class="chip" data-val="marathi">मराठी</div>
+                    <div class="chip" data-val="bengali">বাংলা</div>
+                </div>
+                <div class="divider" style="margin-top:18px"><span>लक्षित क्षेत्र</span></div>
+                <div class="field-row">
+                    <div class="field-group">
+                        <!-- CHANGE 2: राज्य label → AREA -->
+                        <label>AREA</label>
+                        <select id="fld-state">
+                            <option>-- सभी Tier-II/III --</option>
+                            <option>उत्तर प्रदेश</option>
+                            <option>बिहार</option>
+                            <option>मध्य प्रदेश</option>
+                            <option>राजस्थान</option>
+                            <option>झारखंड</option>
+                            <option>छत्तीसगढ़</option>
+                            <option>महाराष्ट्र</option>
+                            <option>पश्चिम बंगाल</option>
+                            <option>तमिलनाडु</option>
+                        </select>
+                    </div>
+                    <div class="field-group">
+                        <label>विज्ञापन का भाव</label>
+                        <select id="fld-tone">
+                            <option value="trustworthy">विश्वसनीय / भरोसेमंद</option>
+                            <option value="festive">उत्सवी / त्योहारी</option>
+                            <option value="emotional">भावनात्मक / दिल को छूने वाला</option>
+                            <option value="bold">प्रेरणादायक / साहसी</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="divider" style="margin-top:8px"><span>सांस्कृतिक संदर्भ</span></div>
+                <div class="cult-section-label">🎊 त्योहार / Festival</div>
+                <div class="cultural-tags" id="cult-tags">
+                    <div class="ctag sel" data-val="diwali">🪔 दीपावली</div>
+                    <div class="ctag" data-val="navratri">🎉 नवरात्री</div>
+                    <div class="ctag" data-val="eid">💐 ईद</div>
+                    <div class="ctag" data-val="holi">🎨 होली</div>
+                    <div class="ctag" data-val="christmas">🎄 Christmas</div>
+                    <div class="ctag" data-val="independence">🇮🇳 Independence Day</div>
+                    <div class="ctag" data-val="other-festival">➕ Other</div>
+                </div>
+                <div class="cult-section-label" style="margin-top:12px;">🏠 रोज़मर्रा / Daily</div>
+                <div class="cultural-tags" id="daily-tags">
+                    <div class="ctag" data-val="kitchen">🍳 Kitchen Use</div>
+                    <div class="ctag" data-val="gifting">🎁 उपहार / Gifting</div>
+                    <div class="ctag" data-val="wedding">💍 शादी / Wedding</div>
+                    <div class="ctag" data-val="harvest">🌾 फसल / Harvest</div>
+                    <div class="ctag" data-val="other-daily">➕ Other</div>
+                </div>
+                <div class="divider" style="margin-top:18px"><span>वीडियो अवधि</span></div>
+                <div class="slider-row">
+                    <input type="range" id="dur-slider" min="5" max="60" value="15"
+                        oninput="document.getElementById('dur-val').textContent = this.value + 's'" />
+                    <div class="slider-val" id="dur-val">15s</div>
+                </div>
+            </div>
+
+            <div class="step-card s4">
+                <div class="step-header">
+                    <div class="step-num">4</div>
+                    <div>
+                        <div class="step-label" id="step4-title">🚀 Ad बनाएं</div>
+                        <div class="step-desc" id="step4-desc">AI सेकंडों में बेहतरीन Ad बनाएगी ✨</div>
+                    </div>
+                </div>
+                <button class="btn-generate" id="genBtn" onclick="startGenerate()">
+                    <span id="gen-btn-txt">✨ AI Ad बनाएं — अभी!</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="error-box" id="errorBox">⚠️ <span id="errorMsg"></span></div>
+
+        <div class="progress-wrap" id="progWrap">
+            <div class="progress-bar-bg">
+                <div class="progress-bar" id="progBar"></div>
+            </div>
+            <div class="progress-steps">
+                <span class="pstep" id="p1">🖼️ फ़ोटो विश्लेषण</span>
+                <span class="pstep" id="p2">✍️ Copywriting</span>
+                <span class="pstep" id="p3">🎞️ Ad बना रहे हैं</span>
+                <span class="pstep" id="p4">✅ तैयार!</span>
+            </div>
+        </div>
+
+        <div class="results-section" id="results">
+            <div class="result-title">🎉 आपकी Ad तैयार है!</div>
+            <div class="result-sub">Ad पर tap करें — replay करें 🔁 | Video format में सभी details!</div>
+            <div class="ad-grid" id="adGrid"></div>
+            <button class="btn-download" onclick="showToast()">
+                <span>⬇️</span> <span id="dl-txt">Ad Download करें</span>
+            </button>
+            <button class="btn-secondary" id="regen-btn" onclick="resetForm()">↺ नई Ad बनाएं</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+        <div class="modal-box">
+            <button class="modal-close"
+                onclick="document.getElementById('modalOverlay').classList.remove('open'); document.body.style.overflow='';">✕</button>
+            <div class="modal-video-frame" id="modalContent"></div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast">✅ Download शुरू हो गई!</div>
+
+    <script>
+        let currentLang = 'hi';
+        let currentMode = 'typing';
+
+        function setMode(mode) {
+            currentMode = mode;
+            const selector = document.getElementById('modeSelector');
+            const typingBtn = document.getElementById('modeTyping');
+            const dictateBtn = document.getElementById('modeDictate');
+            const typingSection = document.getElementById('typing-section');
+            const dictatePanel = document.getElementById('dictatePanel');
+
+            if (mode === 'typing') {
+                selector.classList.remove('dictate-active');
+                typingBtn.classList.add('active');
+                dictateBtn.classList.remove('active');
+                typingSection.classList.remove('hidden');
+                dictatePanel.classList.remove('show');
+                if (isRecording) stopRecording();
+            } else {
+                selector.classList.add('dictate-active');
+                dictateBtn.classList.add('active');
+                typingBtn.classList.remove('active');
+                typingSection.classList.add('hidden');
+                dictatePanel.classList.add('show');
+                document.getElementById('results').classList.remove('show');
+                document.getElementById('progWrap').classList.remove('show');
+            }
+        }
+
+        let recognition = null;
+        let isRecording = false;
+        let waveInterval = null;
+        let fullTranscript = '';
+
+        function initSpeechRecognition() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) return null;
+            const r = new SpeechRecognition();
+            r.continuous = true;
+            r.interimResults = true;
+            r.lang = currentLang === 'hi' ? 'hi-IN' : 'en-IN';
+            return r;
+        }
+
+        function toggleRecording() {
+            if (isRecording) stopRecording();
+            else startRecording();
+        }
+
+        let floatWaveInterval = null;
+
+        function startRecording() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) {
+                showMicStatus(currentLang === 'hi' ? '❌ Browser speech recognition support नहीं है' : '❌ Browser does not support speech recognition', 'error');
+                return;
+            }
+
+            fullTranscript = '';
+            recognition = initSpeechRecognition();
+            isRecording = true;
+
+            const micBtn = document.getElementById('micBtn');
+            micBtn.classList.add('recording');
+            micBtn.textContent = '⏹️';
+            document.getElementById('waveform').classList.add('show');
+            ['ripple1', 'ripple2', 'ripple3'].forEach(id => document.getElementById(id).classList.add('recording'));
+            showMicStatus(currentLang === 'hi' ? '🔴 रिकॉर्डिंग...' : '🔴 Recording...', 'recording');
+
+            showTranscriptFloat(true);
+
+            waveInterval = setInterval(() => {
+                for (let i = 1; i <= 9; i++) {
+                    const b = document.getElementById('wb' + i);
+                    if (b) b.style.height = (Math.random() * 28 + 6) + 'px';
+                }
+            }, 120);
+
+            floatWaveInterval = setInterval(() => {
+                for (let i = 1; i <= 12; i++) {
+                    const b = document.getElementById('tw' + i);
+                    if (b) b.style.height = (Math.random() * 18 + 4) + 'px';
+                }
+            }, 100);
+
+            let interimTranscript = '';
+            recognition.onresult = (event) => {
+                interimTranscript = '';
+                let finalPart = '';
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    if (event.results[i].isFinal) finalPart += event.results[i][0].transcript;
+                    else interimTranscript += event.results[i][0].transcript;
+                }
+                if (finalPart) fullTranscript += finalPart + ' ';
+                updateFloatText(fullTranscript + interimTranscript, true);
+                document.getElementById('transcriptText').textContent = fullTranscript + interimTranscript;
+            };
+
+            recognition.onerror = (e) => {
+                console.warn('Speech error:', e.error);
+                showMicStatus(e.error === 'not-allowed'
+                    ? '❌ Mic permission denied!'
+                    : (currentLang === 'hi' ? '❌ कोई समस्या आई' : '❌ Error, try again'), '');
+                stopRecording();
+            };
+
+            recognition.onend = () => { if (isRecording) recognition.start(); };
+            recognition.start();
+        }
+
+        function stopRecording() {
+            isRecording = false;
+            if (recognition) { recognition.onend = null; recognition.stop(); recognition = null; }
+            clearInterval(waveInterval);
+            clearInterval(floatWaveInterval);
+
+            const micBtn = document.getElementById('micBtn');
+            micBtn.classList.remove('recording');
+            micBtn.textContent = '🎤';
+            document.getElementById('waveform').classList.remove('show');
+            ['ripple1', 'ripple2', 'ripple3'].forEach(id => document.getElementById(id).classList.remove('recording'));
+            for (let i = 1; i <= 9; i++) { const b = document.getElementById('wb' + i); if (b) b.style.height = '8px'; }
+            for (let i = 1; i <= 12; i++) { const b = document.getElementById('tw' + i); if (b) b.style.height = '6px'; }
+
+            if (fullTranscript.trim().length > 0) {
+                showMicStatus(currentLang === 'hi' ? '✅ रिकॉर्डिंग पूरी!' : '✅ Recording complete!', 'done');
+                showTranscriptFloat(false);
+                updateFloatText(fullTranscript.trim(), false);
+            } else {
+                showMicStatus(currentLang === 'hi' ? 'माइक बटन दबाएं' : 'Press mic button', '');
+                hideTranscriptFloat();
+            }
+        }
+
+        function stopRecordingFromFloat() {
+            if (isRecording) stopRecording();
+            else hideTranscriptFloat();
+        }
+
+        function resetRecording() {
+            fullTranscript = '';
+            document.getElementById('transcriptText').textContent = '';
+            showMicStatus(currentLang === 'hi' ? 'माइक बटन दबाएं' : 'Press mic button', '');
+            document.getElementById('micBtn').textContent = '🎤';
+            hideTranscriptFloat();
+        }
+
+        function resetRecordingFromFloat() { resetRecording(); }
+
+        function showTranscriptFloat(isLive) {
+            const overlay = document.getElementById('transcriptFloatOverlay');
+            overlay.classList.add('show');
+            document.body.style.overflow = 'hidden';
+
+            document.getElementById('tfcBtnGen').classList.remove('show');
+            document.getElementById('tfcBtnRedo').classList.remove('show');
+
+            const dot = document.getElementById('tfcLiveDot');
+            const lbl = document.getElementById('tfcLiveLabel');
+            const wave = document.getElementById('tfcWave');
+            const titleEl = document.getElementById('tfc-title-txt');
+            const subEl = document.getElementById('tfc-sub-txt');
+
+            if (isLive) {
+                dot.classList.remove('done');
+                lbl.classList.remove('done');
+                lbl.textContent = 'LIVE REC';
+                wave.classList.add('show');
+                titleEl.textContent = currentLang === 'hi' ? 'आपकी आवाज़ सुन रहे हैं…' : 'Listening to you…';
+                subEl.textContent = currentLang === 'hi' ? 'बोलते रहें, सब note हो रहा है' : 'Keep speaking, everything is noted';
+                document.getElementById('tfcCursor').classList.remove('hide');
+            } else {
+                dot.classList.add('done');
+                lbl.classList.add('done');
+                lbl.textContent = 'DONE';
+                wave.classList.remove('show');
+                titleEl.textContent = currentLang === 'hi' ? 'रिकॉर्डिंग पूरी!' : 'Recording complete!';
+                subEl.textContent = currentLang === 'hi' ? 'Ad बनाने के लिए नीचे tap करें' : 'Tap below to generate your Ad';
+                document.getElementById('tfcCursor').classList.add('hide');
+                document.getElementById('tfcBtnGen').classList.add('show');
+                document.getElementById('tfcBtnRedo').classList.add('show');
+                document.getElementById('tfc-gen-txt').textContent = currentLang === 'hi' ? '✨ इससे Ad बनाएं' : '✨ Generate Ad from this';
+                document.getElementById('tfc-redo-txt').textContent = currentLang === 'hi' ? 'फिर से' : 'Re-record';
+            }
+        }
+
+        function hideTranscriptFloat() {
+            const overlay = document.getElementById('transcriptFloatOverlay');
+            overlay.classList.remove('show');
+            document.body.style.overflow = '';
+            document.getElementById('tfcTranscriptContent').style.display = 'none';
+            document.getElementById('tfcTranscriptContent').textContent = '';
+            document.getElementById('tfcPlaceholder').style.display = '';
+            document.getElementById('tfcCursor').classList.remove('hide');
+            document.getElementById('tfcBtnGen').classList.remove('show');
+            document.getElementById('tfcBtnRedo').classList.remove('show');
+        }
+
+        function updateFloatText(text, isLive) {
+            const ph = document.getElementById('tfcPlaceholder');
+            const tc = document.getElementById('tfcTranscriptContent');
+            if (text && text.trim()) {
+                ph.style.display = 'none';
+                tc.style.display = 'inline';
+                tc.textContent = text;
+                const wrap = document.getElementById('transcriptFloatOverlay').querySelector('.tfc-text-wrap');
+                if (wrap) wrap.scrollTop = wrap.scrollHeight;
+            } else {
+                ph.style.display = '';
+                tc.style.display = 'none';
+                tc.textContent = '';
+            }
+        }
+
+        function showMicStatus(msg, type) {
+            const el = document.getElementById('micStatus');
+            el.textContent = msg;
+            el.className = 'mic-status ' + (type || '');
+        }
+
+        function loadAllImages(files) {
+            if (!files || files.length === 0) return Promise.resolve([]);
+            const promises = Array.from(files).map(f => new Promise(res => {
+                const reader = new FileReader();
+                reader.onload = e => res(e.target.result);
+                reader.readAsDataURL(f);
+            }));
+            return Promise.all(promises);
+        }
+
+        const photoSlideshowTimers = {};
+
+        function startPhotoSlideshow(uid, totalImages, intervalMs) {
+            if (totalImages <= 1) return;
+            let current = 0;
+            function advance() {
+                const prev = current;
+                current = (current + 1) % totalImages;
+                ['s1', 's2', 's3'].forEach(scene => {
+                    const prevEl = document.getElementById(uid + '_' + scene + '_photo_' + prev);
+                    const nextEl = document.getElementById(uid + '_' + scene + '_photo_' + current);
+                    if (prevEl) prevEl.classList.remove('shown');
+                    if (nextEl) nextEl.classList.add('shown');
+                });
+                for (let i = 0; i < totalImages; i++) {
+                    const dot = document.getElementById(uid + '_pdot_' + i);
+                    if (dot) dot.classList.toggle('active', i === current);
+                }
+            }
+            photoSlideshowTimers[uid] = setInterval(advance, intervalMs);
+        }
+
+        function stopPhotoSlideshow(uid) {
+            if (photoSlideshowTimers[uid]) {
+                clearInterval(photoSlideshowTimers[uid]);
+                delete photoSlideshowTimers[uid];
+            }
+        }
+
+        async function useDictateForAd() {
+            const transcript = fullTranscript.trim();
+            if (!transcript) {
+                alert(currentLang === 'hi' ? 'पहले कुछ बोलें!' : 'Please speak first!');
+                return;
+            }
+
+            hideTranscriptFloat();
+            await new Promise(r => setTimeout(r, 300));
+
+            document.getElementById('progWrap').classList.add('show');
+            document.getElementById('results').classList.remove('show');
+            document.getElementById('errorBox').classList.remove('show');
+
+            const bar = document.getElementById('progBar');
+            ['p1', 'p2', 'p3', 'p4'].forEach(s => document.getElementById(s).className = 'pstep');
+            bar.style.width = '0%';
+
+            document.getElementById('progWrap').scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            setTimeout(() => { bar.style.width = '20%'; document.getElementById('p1').className = 'pstep active'; }, 200);
+            setTimeout(() => { document.getElementById('p1').className = 'pstep done'; document.getElementById('p2').className = 'pstep active'; bar.style.width = '45%'; }, 800);
+
+            const extractPrompt = `Extract product details from this voice transcript and then create 4 ad variants.
+
+Voice Transcript: "${transcript}"
+
+Language for ads: ${selectedAdLang}
+
+First extract: product name, price, features/description from the transcript.
+Then create 4 ad variants.
+
+IMPORTANT: Return ONLY in this exact format:
+
+PRODUCT_NAME: <extracted product name>
+PRODUCT_PRICE: <extracted price number only, or 299 if not mentioned>
+PRODUCT_DESC: <extracted features/description>
+
+VARIANT1_HEADLINE: <catchy headline>
+VARIANT1_TAGLINE: <short tagline in ${selectedAdLang}, max 8 words>
+VARIANT1_DESC: <one line description in ${selectedAdLang}, max 15 words>
+VARIANT1_CTA: <call to action, 2-3 words>
+
+VARIANT2_HEADLINE: <catchy headline>
+VARIANT2_TAGLINE: <short tagline in ${selectedAdLang}, max 8 words>
+VARIANT2_DESC: <one line description in ${selectedAdLang}, max 15 words>
+VARIANT2_CTA: <call to action, 2-3 words>
+
+VARIANT3_HEADLINE: <catchy headline>
+VARIANT3_TAGLINE: <short tagline in ${selectedAdLang}, max 8 words>
+VARIANT3_DESC: <one line description in ${selectedAdLang}, max 15 words>
+VARIANT3_CTA: <call to action, 2-3 words>
+
+VARIANT4_HEADLINE: <catchy headline>
+VARIANT4_TAGLINE: <short tagline in ${selectedAdLang}, max 8 words>
+VARIANT4_DESC: <one line description in ${selectedAdLang}, max 15 words>
+VARIANT4_CTA: <call to action, 2-3 words>
+
+Make variants: emotional story, festive, sale-focused, brand inspiration. Culturally relevant to Indian products.`;
+
+            try {
+                const response = await fetch("https://api.anthropic.com/v1/messages", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "anthropic-version": "2023-06-01",
+                        "anthropic-dangerous-direct-browser-access": "true"
+                    },
+                    body: JSON.stringify({
+                        model: "claude-sonnet-4-5-20250929",
+                        max_tokens: 1200,
+                        messages: [{ role: "user", content: extractPrompt }]
+                    })
+                });
+
+                if (!response.ok) throw new Error(`API Error ${response.status}`);
+                const data = await response.json();
+                const adText = data.content?.[0]?.text || '';
+
+                const getField = (key) => {
+                    const m = adText.match(new RegExp(`${key}:\\s*(.+?)(?=\\n|$)`, 'i'));
+                    return m ? m[1].trim() : null;
+                };
+
+                const extractedName = getField('PRODUCT_NAME');
+                const extractedPrice = getField('PRODUCT_PRICE');
+                const extractedDesc = getField('PRODUCT_DESC');
+
+                dictateExtracted.name = extractedName || transcript.split(' ').slice(0, 5).join(' ');
+                dictateExtracted.price = extractedPrice ? extractedPrice.replace(/[^\d]/g, '') : '';
+                dictateExtracted.desc = extractedDesc || transcript;
+                if (extractedName) document.getElementById('fld-pname').value = dictateExtracted.name;
+                if (extractedPrice) document.getElementById('fld-price').value = dictateExtracted.price;
+                if (extractedDesc) document.getElementById('fld-desc').value = dictateExtracted.desc;
+
+                const aiVariants = parseAIResponse(adText);
+                const adLangKey = selectedAdLang === 'english' ? 'en' : 'hi';
+                const fallback = FALLBACK[adLangKey];
+
+                generatedTaglines = aiVariants.map((v, i) => v.tagline || v.headline || fallback.taglines[i]);
+                generatedDescs = aiVariants.map((v, i) => v.desc || fallback.descs[i]);
+                generatedCTAs = aiVariants.map((v, i) => v.cta || fallback.ctas[i]);
+                generatedVariantNames = aiVariants.map((v, i) => v.headline || fallback.variants[i]);
+
+            } catch (err) {
+                console.warn('Dictate API failed:', err.message);
+                dictateExtracted.name = transcript.split(' ').slice(0, 5).join(' ');
+                dictateExtracted.price = '';
+                dictateExtracted.desc = transcript;
+                document.getElementById('fld-pname').value = dictateExtracted.name;
+                document.getElementById('fld-desc').value = dictateExtracted.desc;
+                const adLangKey = selectedAdLang === 'english' ? 'en' : 'hi';
+                const fallback = FALLBACK[adLangKey];
+                generatedTaglines = [...fallback.taglines];
+                generatedDescs = [...fallback.descs];
+                generatedCTAs = [...fallback.ctas];
+                generatedVariantNames = [...fallback.variants];
+            }
+
+            document.getElementById('p2').className = 'pstep done';
+            document.getElementById('p3').className = 'pstep active';
+            bar.style.width = '75%';
+
+            setTimeout(() => {
+                bar.style.width = '100%';
+                document.getElementById('p3').className = 'pstep done';
+                document.getElementById('p4').className = 'pstep done';
+                showResults();
+            }, 600);
+        }
+
+        function setLang(lang) {
+            currentLang = lang;
+            document.getElementById('btn-hi').classList.toggle('active', lang === 'hi');
+            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+
+            if (recognition && isRecording) {
+                stopRecording();
+                setTimeout(startRecording, 300);
+            }
+
+            if (lang === 'hi') {
+                document.getElementById('txt-sub').textContent = 'सिर्फ़ फ़ोटो अपलोड करें और पेशेवर विज्ञापन तैयार करें — बिना किसी एजेंसी के';
+                document.getElementById('step1-title').textContent = '📸 उत्पाद की फ़ोटो अपलोड करें';
+                document.getElementById('step2-title').textContent = '📝 उत्पाद विवरण';
+                document.getElementById('step3-title').textContent = '🎨 Ad कस्टमाइज़ करें';
+                document.getElementById('step4-title').textContent = '🚀 Ad बनाएं';
+                document.getElementById('step4-desc').textContent = 'AI सेकंडों में बेहतरीन Ad बनाएगी ✨';
+                document.getElementById('gen-btn-txt').textContent = '✨ AI Ad बनाएं — अभी!';
+                document.getElementById('uz-h').textContent = 'फ़ोटो यहाँ खींचें या चुनें';
+                document.getElementById('d-uz-h').textContent = 'फ़ोटो यहाँ खींचें या चुनें';
+                document.getElementById('d-step1-title').textContent = '📸 उत्पाद की फ़ोटो अपलोड करें';
+                document.getElementById('d-step1-desc').textContent = 'अपने उत्पाद की 1–5 फ़ोटो जोड़ें';
+                document.getElementById('step1-desc').textContent = 'अपने उत्पाद की 1–5 फ़ोटो जोड़ें';
+                document.getElementById('mode-typing-sub').textContent = 'Details खुद टाइप करें';
+                document.getElementById('mode-dictate-title').textContent = 'DICTATE';
+                document.getElementById('mode-dictate-sub').textContent = 'बोलकर Ad बनाएं';
+                document.getElementById('dictate-main-title').textContent = '🎙️ बोलकर Ad बनाएं';
+                document.getElementById('dictate-hint-txt').innerHTML = 'माइक बटन दबाएं और अपने उत्पाद के बारे में बताएं —<br>नाम, कीमत, विशेषताएं, सब कुछ बोलें!';
+                document.getElementById('use-transcript-txt').textContent = 'इससे Ad बनाएं';
+                document.getElementById('re-record-txt').textContent = 'फिर से';
+                if (!isRecording && fullTranscript.length === 0) showMicStatus('माइक बटन दबाएं', '');
+            } else {
+                document.getElementById('txt-sub').textContent = 'Upload product photos and get professional ads — no agency needed';
+                document.getElementById('step1-title').textContent = '📸 Upload Product Photos';
+                document.getElementById('step2-title').textContent = '📝 Product Details';
+                document.getElementById('step3-title').textContent = '🎨 Customize Your Ad';
+                document.getElementById('step4-title').textContent = '🚀 Generate Your Ad';
+                document.getElementById('step4-desc').textContent = 'AI will create a stunning ad for you ✨';
+                document.getElementById('gen-btn-txt').textContent = '✨ Generate AI Ad — Now!';
+                document.getElementById('uz-h').textContent = 'Drag & Drop or Choose Photos';
+                document.getElementById('d-uz-h').textContent = 'Drag & Drop or Choose Photos';
+                document.getElementById('d-step1-title').textContent = '📸 Upload Product Photos';
+                document.getElementById('d-step1-desc').textContent = 'Add 1–5 photos of your product';
+                document.getElementById('step1-desc').textContent = 'Add 1–5 photos of your product';
+                document.getElementById('mode-typing-sub').textContent = 'Type details manually';
+                document.getElementById('mode-dictate-title').textContent = 'DICTATE';
+                document.getElementById('mode-dictate-sub').textContent = 'Speak to create your ad';
+                document.getElementById('dictate-main-title').textContent = '🎙️ Speak to Create Ad';
+                document.getElementById('dictate-hint-txt').innerHTML = 'Press the mic button and tell us about your product —<br>name, price, features — just speak!';
+                document.getElementById('use-transcript-txt').textContent = 'Generate Ad from this';
+                document.getElementById('re-record-txt').textContent = 'Re-record';
+                if (!isRecording && fullTranscript.length === 0) showMicStatus('Press mic button', '');
+            }
+        }
+
+        let uploadedFiles = [];
+
+        function handleFiles(files) {
+            for (let f of files) {
+                if (uploadedFiles.length >= 5) break;
+                if (!f.type.startsWith('image/')) continue;
+                uploadedFiles.push(f);
+            }
+            renderThumbs();
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            document.getElementById('uploadZone').classList.remove('drag');
+            handleFiles(e.dataTransfer.files);
+        }
+
+        function renderThumbs() {
+            const grid = document.getElementById('thumbGrid');
+            const zone = document.getElementById('uploadZone');
+            if (uploadedFiles.length === 0) { grid.style.display = 'none'; zone.style.display = 'flex'; return; }
+            zone.style.display = 'none';
+            grid.style.display = 'grid';
+            grid.innerHTML = '';
+            uploadedFiles.forEach((f, i) => {
+                const url = URL.createObjectURL(f);
+                const div = document.createElement('div');
+                div.className = 'thumb';
+                div.innerHTML = `<img src="${url}" /><button class="rm" onclick="removeFile(${i})">✕</button>`;
+                grid.appendChild(div);
+            });
+            if (uploadedFiles.length < 5) {
+                const add = document.createElement('div');
+                add.className = 'thumb-add'; add.textContent = '+';
+                add.onclick = () => document.getElementById('fileInput').click();
+                grid.appendChild(add);
+            }
+        }
+
+        function removeFile(i) {
+            uploadedFiles.splice(i, 1); renderThumbs();
+            if (uploadedFiles.length === 0) document.getElementById('uploadZone').style.display = 'flex';
+        }
+
+        let dictUploadedFiles = [];
+
+        function handleDictFiles(files) {
+            for (let f of files) {
+                if (dictUploadedFiles.length >= 5) break;
+                if (!f.type.startsWith('image/')) continue;
+                dictUploadedFiles.push(f);
+            }
+            renderDictThumbs();
+        }
+
+        function handleDictDrop(e) {
+            e.preventDefault();
+            document.getElementById('dUploadZone').classList.remove('drag');
+            handleDictFiles(e.dataTransfer.files);
+        }
+
+        function renderDictThumbs() {
+            const grid = document.getElementById('dThumbGrid');
+            const zone = document.getElementById('dUploadZone');
+            if (!grid || !zone) return;
+            if (dictUploadedFiles.length === 0) { grid.style.display = 'none'; zone.style.display = 'flex'; return; }
+            zone.style.display = 'none';
+            grid.style.display = 'grid';
+            grid.innerHTML = '';
+            dictUploadedFiles.forEach((f, i) => {
+                const url = URL.createObjectURL(f);
+                const div = document.createElement('div');
+                div.className = 'thumb';
+                div.innerHTML = '<img src="' + url + '" /><button class="rm" onclick="removeDictFile(' + i + ')">✕</button>';
+                grid.appendChild(div);
+            });
+            if (dictUploadedFiles.length < 5) {
+                const add = document.createElement('div');
+                add.className = 'thumb-add'; add.textContent = '+';
+                add.onclick = () => document.getElementById('dFileInput').click();
+                grid.appendChild(add);
+            }
+        }
+
+        function removeDictFile(i) {
+            dictUploadedFiles.splice(i, 1); renderDictThumbs();
+            if (dictUploadedFiles.length === 0) document.getElementById('dUploadZone').style.display = 'flex';
+        }
+
+        let selectedAdLang = 'hindi';
+        document.getElementById('lang-chips').addEventListener('click', e => {
+            const chip = e.target.closest('.chip'); if (!chip) return;
+            document.querySelectorAll('#lang-chips .chip').forEach(c => c.classList.remove('sel'));
+            chip.classList.add('sel'); selectedAdLang = chip.dataset.val;
+        });
+
+        ['cult-tags', 'daily-tags'].forEach(groupId => {
+            document.getElementById(groupId).addEventListener('click', e => {
+                const tag = e.target.closest('.ctag');
+                if (tag) tag.classList.toggle('sel');
+            });
+        });
+
+        function parseAIResponse(text) {
+            const variants = [];
+            for (let i = 1; i <= 4; i++) {
+                const get = (key) => {
+                    const regex = new RegExp(`VARIANT${i}_${key}:\\s*(.+?)(?=\\nVARIANT|\\nVARIANT|$)`, 'is');
+                    const match = text.match(regex);
+                    return match ? match[1].trim() : null;
+                };
+                variants.push({ headline: get('HEADLINE'), tagline: get('TAGLINE'), desc: get('DESC'), cta: get('CTA') });
+            }
+            return variants;
+        }
+
+        const FALLBACK = {
+            hi: {
+                variants: ['भावनात्मक कहानी', 'उत्सव Edition', 'सेल फ़ोकस', 'ब्रांड प्रेरणा'],
+                taglines: ['हर घर में पहुँचे,\nहर दिल को छुए', 'इस त्योहार पर,\nकुछ खास लाएं', 'सीमित समय!\nबड़ी बचत करें', 'महिलाओं की\nताकत से बना'],
+                descs: ['हमारे हाथ से बने उत्पाद आपके घर में खुशियाँ लाएंगे।', 'त्योहार के मौके पर अपनों को दें हस्तशिल्प का तोहफा।', 'अभी ऑर्डर करें और पाएं मुफ़्त डिलीवरी।', 'स्वयं सहायता समूह की महिलाओं द्वारा तैयार उत्पाद।'],
+                ctas: ['अभी खरीदें', 'ऑर्डर करें', 'डील पाएं', 'और जानें'],
+            },
+            en: {
+                variants: ['Emotional Story', 'Festive Edition', 'Sale Focus', 'Brand Inspiration'],
+                taglines: ['Crafted with love,\nDelivered with care', 'This festive season,\nbring home something special', 'Limited Time!\nSave Big Today', 'Made with Purpose,\nMade with Pride'],
+                descs: ['Handmade products that bring warmth and joy to every home.', 'Gift the art of local craftsmanship this festive season.', 'Order now and get free delivery + 20% off.', 'Quality guaranteed. Made by skilled artisans.'],
+                ctas: ['Buy Now', 'Order Now', 'Grab Deal', 'Learn More'],
+            }
+        };
+
+        let dictateExtracted = { name: '', price: '', desc: '' };
+
+        let generatedTaglines = [...FALLBACK.hi.taglines];
+        let generatedDescs = [...FALLBACK.hi.descs];
+        let generatedCTAs = [...FALLBACK.hi.ctas];
+        let generatedVariantNames = [...FALLBACK.hi.variants];
+
+        async function startGenerate() {
+            const btn = document.getElementById('genBtn');
+            const errorBox = document.getElementById('errorBox');
+            errorBox.classList.remove('show');
+
+            const product = document.getElementById('fld-pname').value.trim();
+            const price = document.getElementById('fld-price').value.trim();
+            const offer = document.getElementById('fld-desc').value.trim();
+            const tone = document.getElementById('fld-tone').value;
+            const selCultTags = [...document.querySelectorAll('#cult-tags .ctag.sel, #daily-tags .ctag.sel')].map(t => t.dataset.val);
+            const festival = selCultTags.join(', ') || 'general';
+
+            if (!product) { showError(currentLang === 'hi' ? '⚠️ उत्पाद का नाम ज़रूरी है!' : '⚠️ Product name is required!'); return; }
+
+            btn.disabled = true;
+            document.getElementById('gen-btn-txt').textContent = currentLang === 'hi' ? '⏳ AI सोच रही है...' : '⏳ AI is thinking...';
+            document.getElementById('progWrap').classList.add('show');
+            document.getElementById('results').classList.remove('show');
+
+            const bar = document.getElementById('progBar');
+            ['p1', 'p2', 'p3', 'p4'].forEach(s => document.getElementById(s).className = 'pstep');
+            bar.style.width = '0%';
+
+            setTimeout(() => { bar.style.width = '20%'; document.getElementById('p1').className = 'pstep active'; }, 200);
+            setTimeout(() => { document.getElementById('p1').className = 'pstep done'; document.getElementById('p2').className = 'pstep active'; bar.style.width = '45%'; }, 800);
+
+            const prompt = `You are an expert Indian advertisement copywriter for artisan products.
+
+Create 4 different ad variants for:
+Product: ${product}
+Price: ₹${price || '299'}
+Features/Offer: ${offer || 'handmade quality product'}
+Language: ${selectedAdLang}
+Tone: ${tone}
+Festival/Occasion: ${festival}
+
+IMPORTANT: Return ONLY in this exact format, no extra text:
+
+VARIANT1_HEADLINE: <catchy headline>
+VARIANT1_TAGLINE: <short tagline in ${selectedAdLang}, max 8 words, use \\n for line break>
+VARIANT1_DESC: <one line description in ${selectedAdLang}, max 15 words>
+VARIANT1_CTA: <call to action, 2-3 words>
+
+VARIANT2_HEADLINE: <catchy headline>
+VARIANT2_TAGLINE: <short tagline in ${selectedAdLang}, max 8 words, use \\n for line break>
+VARIANT2_DESC: <one line description in ${selectedAdLang}, max 15 words>
+VARIANT2_CTA: <call to action, 2-3 words>
+
+VARIANT3_HEADLINE: <catchy headline>
+VARIANT3_TAGLINE: <short tagline in ${selectedAdLang}, max 8 words, use \\n for line break>
+VARIANT3_DESC: <one line description in ${selectedAdLang}, max 15 words>
+VARIANT3_CTA: <call to action, 2-3 words>
+
+VARIANT4_HEADLINE: <catchy headline>
+VARIANT4_TAGLINE: <short tagline in ${selectedAdLang}, max 8 words, use \\n for line break>
+VARIANT4_DESC: <one line description in ${selectedAdLang}, max 15 words>
+VARIANT4_CTA: <call to action, 2-3 words>
+
+Make each variant unique: emotional story, festive, sale-focused, brand inspiration. Culturally relevant to Indian products.`;
+
+            try {
+                const response = await fetch("https://api.anthropic.com/v1/messages", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json", "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
+                    body: JSON.stringify({ model: "claude-sonnet-4-5-20250929", max_tokens: 1000, messages: [{ role: "user", content: prompt }] })
+                });
+                if (!response.ok) throw new Error(`API Error ${response.status}`);
+                const data = await response.json();
+                const adText = data.content?.[0]?.text || '';
+                if (!adText) throw new Error('Empty response');
+
+                const aiVariants = parseAIResponse(adText);
+                const adLangKey = selectedAdLang === 'english' ? 'en' : 'hi';
+                const fallback = FALLBACK[adLangKey];
+                generatedTaglines = aiVariants.map((v, i) => v.tagline || v.headline || fallback.taglines[i]);
+                generatedDescs = aiVariants.map((v, i) => v.desc || fallback.descs[i]);
+                generatedCTAs = aiVariants.map((v, i) => v.cta || fallback.ctas[i]);
+                generatedVariantNames = aiVariants.map((v, i) => v.headline || fallback.variants[i]);
+
+                document.getElementById('p2').className = 'pstep done';
+                document.getElementById('p3').className = 'pstep active';
+                bar.style.width = '75%';
+                setTimeout(() => { bar.style.width = '100%'; document.getElementById('p3').className = 'pstep done'; document.getElementById('p4').className = 'pstep done'; showResults(); btn.disabled = false; document.getElementById('gen-btn-txt').textContent = currentLang === 'hi' ? '✨ AI Ad बनाएं — अभी!' : '✨ Generate AI Ad — Now!'; }, 600);
+
+            } catch (err) {
+                console.warn('API call failed, using fallback:', err.message);
+                const adLangKey = selectedAdLang === 'english' ? 'en' : 'hi';
+                const fallback = FALLBACK[adLangKey];
+                generatedTaglines = [...fallback.taglines];
+                generatedDescs = [...fallback.descs];
+                generatedCTAs = [...fallback.ctas];
+                generatedVariantNames = [...fallback.variants];
+                document.getElementById('p2').className = 'pstep done';
+                document.getElementById('p3').className = 'pstep active';
+                bar.style.width = '75%';
+                setTimeout(() => { bar.style.width = '100%'; document.getElementById('p3').className = 'pstep done'; document.getElementById('p4').className = 'pstep done'; showResults(); btn.disabled = false; document.getElementById('gen-btn-txt').textContent = currentLang === 'hi' ? '✨ AI Ad बनाएं — अभी!' : '✨ Generate AI Ad — Now!'; }, 600);
+            }
+        }
+
+        function showError(msg) {
+            const box = document.getElementById('errorBox');
+            document.getElementById('errorMsg').textContent = msg;
+            box.classList.add('show');
+            box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        const AD_THEMES = [
+            { bg: '#1a003a', accent: '#FF0080', cta1: '#FF0080', cta2: '#9B00FF', emoji: '🧵' },
+            { bg: '#1a1000', accent: '#FFD000', cta1: '#FFD000', cta2: '#FF5500', emoji: '🪔' },
+            { bg: '#00001a', accent: '#00CFFF', cta1: '#00CFFF', cta2: '#00FFD0', emoji: '🎁' },
+            { bg: '#0a001a', accent: '#AAFF00', cta1: '#AAFF00', cta2: '#00FFD0', emoji: '🌿' },
+        ];
+
+        function buildAdReel(idx, productName, price, shgName, imageDataUrls, extraData) {
+            const theme = AD_THEMES[idx];
+            const cta = generatedCTAs[idx] || 'Buy Now';
+            const pName = productName || 'हस्तशिल्प उत्पाद';
+            const showPrice = price ? `₹${price}` : '₹299';
+            const mrp = price ? `₹${Math.round(parseInt(price) * 1.28)}` : '₹380';
+            const saveAmt = price ? Math.round(parseInt(price) * 0.28) : 0;
+            const catText = (extraData && extraData.catText) || '';
+            const desc = (extraData && extraData.desc) || '';
+            const toneText = (extraData && extraData.toneText) || '';
+            const uid = 'vs_' + Date.now() + '_' + idx;
+
+            const imgs = Array.isArray(imageDataUrls) ? imageDataUrls : (imageDataUrls ? [imageDataUrls] : []);
+            const hasPhotos = imgs.length > 0;
+            const multiPhoto = imgs.length > 1;
+
+            function parseFeatures(rawDesc) {
+                if (!rawDesc) return [];
+                const lines = rawDesc.split(/\n/).map(l => l.trim()).filter(Boolean);
+                const sections = [];
+                let current = null;
+                const isSectionHead = (line) => {
+                    return /^[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/u.test(line) && line.length < 60 &&
+                        !line.startsWith('✅') && !line.startsWith('✨') && !line.startsWith('🎉');
+                };
+                for (const line of lines) {
+                    if (isSectionHead(line)) {
+                        current = { title: line, items: [] };
+                        sections.push(current);
+                    } else {
+                        if (!current) { current = { title: '', items: [] }; sections.push(current); }
+                        current.items.push(line.replace(/^[-•·]\s*/, ''));
+                    }
+                }
+                return sections;
+            }
+
+            const featureSections = parseFeatures(desc);
+            const hasRichFeatures = featureSections.some(s => s.items.length > 0);
+
+            const pinName = `<div class="vs-s2-pin-chip"><div class="vs-s2-pin-label">${currentLang === 'hi' ? 'उत्पाद' : 'Product'}</div><div class="vs-s2-pin-val">${pName}</div></div>`;
+            const pinPrice = price ? `<div class="vs-s2-pin-chip" style="border-color:${theme.accent}44;"><div class="vs-s2-pin-label">${currentLang === 'hi' ? 'कीमत' : 'Price'}</div><div class="vs-s2-pin-val" style="color:${theme.accent};">${showPrice}</div></div>` : '';
+            const pinnedHTML = `<div class="vs-s2-pinned">${pinName}${pinPrice}</div>`;
+
+            const catChip = (catText && catText !== '-- चुनें --')
+                ? `<div class="vs-feat-section">${catText}</div>` : '';
+
+            let scrollItems = catChip;
+            let pillIdx = 0;
+
+            if (hasRichFeatures) {
+                for (const sec of featureSections) {
+                    if (sec.title) scrollItems += `<div class="vs-feat-section">${sec.title}</div>`;
+                    for (const item of sec.items) {
+                        scrollItems += `<div class="vs-feat-pill" data-pilldelay="${pillIdx * 55}" style="border-color:${theme.accent}22;">
+                            <div class="vs-feat-dot" style="background:${theme.accent};box-shadow:0 0 6px ${theme.accent}88;"></div>
+                            <div class="vs-feat-text">${item}</div>
+                        </div>`;
+                        pillIdx++;
+                    }
+                }
+            } else if (desc) {
+                const items = desc.split(/[,;\n]+/).map(s => s.trim()).filter(s => s.length > 1);
+                for (const item of items) {
+                    scrollItems += `<div class="vs-feat-pill" data-pilldelay="${pillIdx * 55}" style="border-color:${theme.accent}22;">
+                        <div class="vs-feat-dot" style="background:${theme.accent};box-shadow:0 0 6px ${theme.accent}88;"></div>
+                        <div class="vs-feat-text">${item}</div>
+                    </div>`;
+                    pillIdx++;
+                }
+            }
+
+            const detRowsHTML = pinnedHTML + `<div class="vs-s2-scroll" id="${uid}_s2scroll">${scrollItems}</div><div class="vs-s2-fade"></div>`;
+
+            let photoS1HTML = '';
+            if (hasPhotos) {
+                photoS1HTML = `<div class="vs-bg-photos">` +
+                    imgs.map((url, i) => `<img id="${uid}_s1_photo_${i}" class="vs-bg-photo${i === 0 ? ' shown' : ''}" src="${url}" alt="product"/>`).join('') +
+                    `</div>`;
+            } else {
+                photoS1HTML = `<div class="vs-bg-placeholder" style="background:${theme.bg};"><span style="font-size:72px;filter:drop-shadow(0 4px 24px rgba(0,0,0,0.7))">${theme.emoji}</span><span style="font-family:'Baloo 2',cursive;font-size:13px;font-weight:800;color:rgba(255,255,255,0.8);text-align:center;padding:0 20px;">${pName}</span></div>`;
+            }
+
+            let photoS2HTML = '';
+            if (hasPhotos) {
+                photoS2HTML = imgs.map((url, i) => `<img id="${uid}_s2_photo_${i}" class="vs-s2-photo${i === 0 ? ' shown' : ''}" src="${url}" alt="product"/>`).join('');
+            } else {
+                photoS2HTML = `<div class="vs-s2-placeholder" style="background:${theme.bg};font-size:52px;">${theme.emoji}</div>`;
+            }
+
+            let photoS3HTML = '';
+            if (hasPhotos) {
+                photoS3HTML = imgs.map((url, i) => `<img id="${uid}_s3_photo_${i}" class="vs-s3-photo${i === 0 ? ' shown' : ''}" src="${url}" alt="product"/>`).join('');
+            } else {
+                photoS3HTML = `<div class="vs-s3-placeholder">${theme.emoji}</div>`;
+            }
+
+            const countBadge = multiPhoto
+                ? `<div class="photo-count-badge" id="${uid}_count">📸 <span id="${uid}_photonum">1</span>/${imgs.length}</div>`
+                : '';
+
+            const photoDots = multiPhoto
+                ? `<div class="photo-dots">${imgs.map((_, i) => `<div class="photo-dot${i === 0 ? ' active' : ''}" id="${uid}_pdot_${i}"></div>`).join('')}</div>`
+                : '';
+
+            return `
+<div class="ad-reel" id="${uid}">
+  <div class="vs-scene-dots">
+    <div class="vs-dot active" id="${uid}_d0" style="--dur:3.5s"></div>
+    <div class="vs-dot" id="${uid}_d1" style="--dur:4s"></div>
+    <div class="vs-dot" id="${uid}_d2" style="--dur:4s"></div>
+  </div>
+  ${countBadge}
+  <div class="vs-scene vs-scene-1 active" id="${uid}_s1">
+    ${photoS1HTML}
+    <div class="vs-overlay"></div>
+    <div class="vs-brand-bar">
+      <div class="vs-brand-pill"><span class="vs-live-dot"></span>Ad Alchemy</div>
+      <div class="vs-alchemy-tag">✨ AD</div>
+    </div>
+    <div class="vs-product-name-bottom">
+      <div class="vs-s1-pname">${pName}</div>
+      <div class="vs-s1-sub">${currentLang === 'hi' ? 'नीचे देखें — सभी विवरण' : 'Swipe to see details'} ↓</div>
+    </div>
+    ${photoDots}
+  </div>
+  <div class="vs-scene vs-scene-2" id="${uid}_s2" style="background:var(--darkbg);">
+    <div class="vs-s2-photo-half">
+      ${photoS2HTML}
+      <div class="vs-s2-ph-overlay"></div>
+    </div>
+    <div class="vs-s2-content">${detRowsHTML}</div>
+  </div>
+  <div class="vs-scene vs-scene-3" id="${uid}_s3">
+    <div class="vs-s3-bg">${photoS3HTML}</div>
+    <div class="vs-s3-content">
+      <div class="vs-s3-pname">${pName}</div>
+      <div class="vs-s3-divider" style="background:${theme.accent};"></div>
+      <div class="vs-s3-price-wrap">
+        <div class="vs-s3-price" style="color:${theme.accent};text-shadow:0 0 30px ${theme.accent}66;">${showPrice}<span class="vs-s3-mrp">${mrp}</span></div>
+        ${saveAmt > 0 ? `<div class="vs-s3-save" style="color:${theme.accent};">🎉 ₹${saveAmt} ${currentLang === 'hi' ? 'की बचत!' : 'Saved!'}</div>` : ''}
+      </div>
+      <div class="vs-s3-cta" style="background:linear-gradient(135deg,${theme.cta1},${theme.cta2});box-shadow:0 8px 28px ${theme.cta1}66;">${cta} →</div>
+    </div>
+  </div>
+  <div class="vs-replay-overlay" id="${uid}_replay">
+    <div class="vs-replay-btn" onclick="startVideoAd('${uid}')">↺</div>
+    <div class="vs-replay-text">${currentLang === 'hi' ? 'दोबारा देखें' : 'Replay'}</div>
+  </div>
+</div>`;
+        }
+
+        const VS_DURATIONS = [3500, 6000, 4000];
+
+        function startVideoAd(uid) {
+            const replay = document.getElementById(uid + '_replay');
+            if (replay) replay.classList.remove('show');
+            [0, 1, 2].forEach(i => {
+                const scene = document.getElementById(`${uid}_s${i + 1}`);
+                const dot = document.getElementById(`${uid}_d${i}`);
+                if (scene) scene.classList.remove('active');
+                if (dot) dot.classList.remove('active', 'done');
+            });
+            document.querySelectorAll(`#${uid}_s2 .vs-s2-detail-row, #${uid}_s2 .vs-feat-pill`).forEach(r => r.classList.remove('vis'));
+            const s2scroll = document.getElementById(uid + '_s2scroll');
+            if (s2scroll) s2scroll.scrollTop = 0;
+            document.querySelectorAll(`#${uid}_s3 .vs-s3-pname, #${uid}_s3 .vs-s3-divider, #${uid}_s3 .vs-s3-price-wrap, #${uid}_s3 .vs-s3-cta`).forEach(e => e.classList.remove('vis'));
+            runScene(uid, 0);
+        }
+
+        function runScene(uid, sceneIdx) {
+            const scenes = [document.getElementById(`${uid}_s1`), document.getElementById(`${uid}_s2`), document.getElementById(`${uid}_s3`)];
+            const dots = [document.getElementById(`${uid}_d0`), document.getElementById(`${uid}_d1`), document.getElementById(`${uid}_d2`)];
+            scenes.forEach((s, i) => { if (s) s.classList.toggle('active', i === sceneIdx); });
+            dots.forEach((d, i) => {
+                if (!d) return;
+                d.classList.remove('active', 'done');
+                if (i < sceneIdx) d.classList.add('done');
+                if (i === sceneIdx) { d.style.animation = 'none'; d.offsetHeight; d.style.animation = ''; d.classList.add('active'); }
+            });
+            if (sceneIdx === 1) {
+                const pills = document.querySelectorAll(`#${uid}_s2 .vs-feat-pill`);
+                pills.forEach(p => {
+                    const delay = parseInt(p.dataset.pilldelay || 0);
+                    setTimeout(() => p.classList.add('vis'), 150 + delay);
+                });
+                document.querySelectorAll(`#${uid}_s2 .vs-s2-detail-row`).forEach((r, i) => setTimeout(() => r.classList.add('vis'), 200 + i * 180));
+                const scrollEl = document.getElementById(uid + '_s2scroll');
+                if (scrollEl && pills.length > 0) {
+                    const sceneDur = VS_DURATIONS[1];
+                    const totalScroll = scrollEl.scrollHeight - scrollEl.clientHeight;
+                    if (totalScroll > 0) {
+                        const startDelay = 800;
+                        const scrollDur = sceneDur - startDelay - 400;
+                        let startTime = null;
+                        const tick = (ts) => {
+                            if (!startTime) startTime = ts;
+                            const elapsed = ts - startTime;
+                            const prog = Math.min(elapsed / scrollDur, 1);
+                            const eased = prog < 0.5 ? 2 * prog * prog : -1 + (4 - 2 * prog) * prog;
+                            scrollEl.scrollTop = eased * totalScroll;
+                            if (prog < 1) requestAnimationFrame(tick);
+                        };
+                        setTimeout(() => requestAnimationFrame(tick), startDelay);
+                    }
+                }
+            }
+            if (sceneIdx === 2) {
+                const els = document.querySelectorAll(`#${uid}_s3 .vs-s3-pname, #${uid}_s3 .vs-s3-divider, #${uid}_s3 .vs-s3-price-wrap, #${uid}_s3 .vs-s3-cta`);
+                els.forEach((el, i) => setTimeout(() => el.classList.add('vis'), i * 150));
+            }
+            setTimeout(() => {
+                if (sceneIdx < 2) { runScene(uid, sceneIdx + 1); }
+                else {
+                    dots.forEach(d => { if (d) { d.classList.remove('active'); d.classList.add('done'); } });
+                    const replay = document.getElementById(uid + '_replay');
+                    if (replay) replay.classList.add('show');
+                }
+            }, VS_DURATIONS[sceneIdx]);
+        }
+
+        function buildDictateAd(pName, price, desc, imageDataUrls) {
+            const theme = AD_THEMES[0];
+            const cta = generatedCTAs[0] || (currentLang === 'hi' ? 'अभी खरीदें' : 'Buy Now');
+            const headline = generatedVariantNames[0] || pName;
+            const tagline = generatedTaglines[0] || '';
+            const adDesc = generatedDescs[0] || desc;
+
+            const showPrice = price ? `₹${price}` : '';
+            const mrp = price ? `₹${Math.round(parseInt(price) * 1.28)}` : '';
+            const saveAmt = price ? Math.round(parseInt(price) * 0.28) : 0;
+
+            const imgs = Array.isArray(imageDataUrls) ? imageDataUrls : (imageDataUrls ? [imageDataUrls] : []);
+            const hasPhotos = imgs.length > 0;
+            const multiPhoto = imgs.length > 1;
+            const uid = 'dv_' + Date.now();
+
+            let photoBgHTML = '';
+            if (hasPhotos) {
+                photoBgHTML = `<div class="dictate-ad-photo-wrap">` +
+                    imgs.map((url, i) => `<img id="${uid}_photo_${i}" class="dictate-ad-photo${i === 0 ? ' shown' : ''}" src="${url}" alt="product"/>`).join('') +
+                    `</div>`;
+            } else {
+                photoBgHTML = `<div style="position:absolute;inset:0;background:${theme.bg};display:flex;align-items:center;justify-content:center;font-size:80px;">🛍️</div>`;
+            }
+
+            const countBadge = multiPhoto
+                ? `<div style="position:absolute;top:56px;right:14px;z-index:10;background:rgba(0,0,0,0.55);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.2);border-radius:50px;padding:4px 10px;font-size:10px;font-weight:700;color:#fff;display:flex;align-items:center;gap:4px;">📸 <span id="${uid}_cnt">1</span>/${imgs.length}</div>`
+                : '';
+
+            const dotBar = multiPhoto
+                ? `<div style="position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:5px;z-index:10;">
+                    ${imgs.map((_, i) => `<div id="${uid}_pdot_${i}" style="width:6px;height:6px;border-radius:50%;background:${i === 0 ? '#fff' : 'rgba(255,255,255,0.35)'};transition:background 0.3s,transform 0.3s;${i === 0 ? 'transform:scale(1.3);' : ''}"></div>`).join('')}
+                   </div>`
+                : '';
+
+            function parseFeatsDictate(rawDesc) {
+                if (!rawDesc) return [];
+                const lines = rawDesc.split(/\n/).map(l => l.trim()).filter(Boolean);
+                const sections = [];
+                let current = null;
+                const isSectionHead = (line) => /^[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/u.test(line) && line.length < 60 && !line.startsWith('✅') && !line.startsWith('✨') && !line.startsWith('🎉');
+                for (const line of lines) {
+                    if (isSectionHead(line)) { current = { title: line, items: [] }; sections.push(current); }
+                    else { if (!current) { current = { title: '', items: [] }; sections.push(current); } current.items.push(line.replace(/^[-•·]\s*/, '')); }
+                }
+                return sections;
+            }
+
+            const dSections = parseFeatsDictate(desc);
+            const dHasRich = dSections.some(s => s.items.length > 0);
+            let dFeatHTML = '';
+            let dpi = 0;
+            if (dHasRich) {
+                for (const sec of dSections) {
+                    if (sec.title) dFeatHTML += `<div style="font-size:8.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--muted);padding:5px 4px 3px;display:flex;align-items:center;gap:5px;">${sec.title} <span style="flex:1;height:1px;background:rgba(255,255,255,0.07);display:block;"></span></div>`;
+                    for (const item of sec.items) {
+                        dFeatHTML += `<div style="display:flex;align-items:center;gap:7px;padding:6px 9px;border-radius:8px;background:rgba(255,255,255,0.04);border:1px solid ${theme.accent}22;margin-bottom:4px;"><div style="width:5px;height:5px;border-radius:50%;background:${theme.accent};box-shadow:0 0 6px ${theme.accent}88;flex-shrink:0;"></div><div style="font-size:10.5px;font-weight:600;color:var(--text);line-height:1.3;">${item}</div></div>`;
+                        dpi++;
+                    }
+                }
+            } else if (desc) {
+                const items = desc.split(/[,;\n]+/).map(s => s.trim()).filter(s => s.length > 1);
+                for (const item of items) {
+                    dFeatHTML += `<div style="display:flex;align-items:center;gap:7px;padding:6px 9px;border-radius:8px;background:rgba(255,255,255,0.04);border:1px solid ${theme.accent}22;margin-bottom:4px;"><div style="width:5px;height:5px;border-radius:50%;background:${theme.accent};box-shadow:0 0 6px ${theme.accent}88;flex-shrink:0;"></div><div style="font-size:10.5px;font-weight:600;color:var(--text);line-height:1.3;">${item}</div></div>`;
+                    dpi++;
+                }
+            }
+            const adDescBlock = (!dHasRich && !dpi && adDesc) ? `<div style="font-size:11px;color:rgba(255,255,255,0.75);line-height:1.55;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:9px 11px;margin-bottom:8px;">${adDesc}</div>` : '';
+
+            return `
+<div style="width:100%;max-width:340px;margin:0 auto;border-radius:24px;overflow:hidden;position:relative;aspect-ratio:9/16;box-shadow:0 20px 60px rgba(0,0,0,0.7);animation:fadeUp 0.5s ease both;display:flex;flex-direction:column;" id="${uid}_wrap">
+  <div style="position:relative;flex:0 0 44%;overflow:hidden;">
+    ${photoBgHTML}
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.45) 0%,rgba(0,0,0,0) 35%,rgba(0,0,0,0.7) 100%);z-index:1;"></div>
+    <div style="position:absolute;top:0;left:0;right:0;z-index:3;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;">
+      <div style="display:flex;align-items:center;gap:5px;background:rgba(0,0,0,0.45);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.18);border-radius:50px;padding:4px 10px 4px 7px;">
+        <span style="width:6px;height:6px;border-radius:50%;background:#FF6B1A;box-shadow:0 0 8px #FF6B1A;animation:vsBlink 1.2s ease-in-out infinite;display:inline-block;"></span>
+        <span style="font-family:'Baloo 2',cursive;font-size:9px;font-weight:800;color:#fff;">Ad Alchemy</span>
+      </div>
+      <div style="background:rgba(0,0,0,0.45);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.18);border-radius:50px;padding:4px 10px;font-size:8px;font-weight:700;color:rgba(255,255,255,0.9);">✨ VOICE AD</div>
+    </div>
+    ${countBadge}
+    <div style="position:absolute;bottom:10px;left:12px;right:12px;z-index:3;">
+      <div style="font-family:'Baloo 2',cursive;font-size:9px;font-weight:800;color:${theme.accent};text-transform:uppercase;letter-spacing:1.2px;opacity:0.9;margin-bottom:2px;">${headline}</div>
+      <div style="font-family:'Baloo 2',cursive;font-size:18px;font-weight:800;color:#fff;line-height:1.15;text-shadow:0 2px 12px rgba(0,0,0,0.9);">${pName}</div>
+    </div>
+    ${dotBar}
+  </div>
+  <div style="flex:1;background:var(--darkbg);display:flex;flex-direction:column;padding:10px 12px 12px;min-height:0;overflow:hidden;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-shrink:0;">
+      ${showPrice ? `<div style="background:${theme.accent}22;border:1.5px solid ${theme.accent};border-radius:50px;padding:4px 12px;font-size:13px;font-weight:800;color:${theme.accent};display:inline-flex;align-items:center;gap:5px;">💰 ${showPrice} ${mrp ? `<span style='font-size:10px;color:rgba(255,255,255,0.35);text-decoration:line-through;'>${mrp}</span>` : ''}</div>` : ''}
+      ${saveAmt > 0 ? `<div style="background:rgba(0,191,165,0.12);border:1px solid #00BFA5;border-radius:50px;padding:4px 10px;font-size:10px;font-weight:800;color:#00BFA5;">🎉 ₹${saveAmt} ${currentLang === 'hi' ? 'बचत' : 'saved'}</div>` : ''}
+    </div>
+    ${tagline ? `<div style="font-size:11px;color:rgba(255,255,255,0.75);margin-bottom:8px;line-height:1.45;font-weight:500;flex-shrink:0;">${tagline.replace(/\n/g, '<br>')}</div>` : ''}
+    <div id="${uid}_dscroll" style="flex:1;overflow-y:auto;min-height:0;padding-right:2px;scrollbar-width:thin;scrollbar-color:rgba(255,0,128,0.4) transparent;margin-bottom:8px;">
+      ${adDescBlock}
+      ${dFeatHTML}
+    </div>
+    <div style="background:linear-gradient(135deg,${theme.accent},${theme.cta2});border-radius:50px;padding:11px 20px;font-family:'Baloo 2',cursive;font-size:14px;font-weight:800;color:#fff;text-align:center;box-shadow:0 6px 20px ${theme.accent}55;cursor:pointer;flex-shrink:0;">${cta} →</div>
+  </div>
+</div>`;
+        }
+
+        function showResults() {
+            const grid = document.getElementById('adGrid');
+            const activeFiles = currentMode === 'dictate' ? dictUploadedFiles : uploadedFiles;
+
+            const pName = currentMode === 'dictate'
+                ? dictateExtracted.name
+                : document.getElementById('fld-pname').value.trim();
+            const price = currentMode === 'dictate'
+                ? dictateExtracted.price
+                : document.getElementById('fld-price').value.trim();
+            const desc = currentMode === 'dictate'
+                ? dictateExtracted.desc
+                : document.getElementById('fld-desc').value.trim();
+            const catEl = document.getElementById('fld-cat');
+            const catText = catEl.options[catEl.selectedIndex]?.text || '';
+            const toneEl = document.getElementById('fld-tone');
+            const toneText = toneEl.options[toneEl.selectedIndex]?.text || '';
+
+            loadAllImages(activeFiles).then(allImgData => {
+                grid.innerHTML = '';
+                Object.keys(photoSlideshowTimers).forEach(k => stopPhotoSlideshow(k));
+
+                if (currentMode === 'dictate') {
+                    const wrapper = document.createElement('div');
+                    wrapper.innerHTML = buildDictateAd(pName, price, desc, allImgData);
+                    grid.appendChild(wrapper);
+
+                    if (allImgData.length > 1) {
+                        const uid = wrapper.querySelector('[id$="_wrap"]')?.id?.replace('_wrap', '');
+                        if (uid) {
+                            let cur = 0;
+                            const n = allImgData.length;
+                            photoSlideshowTimers[uid] = setInterval(() => {
+                                const prev = cur;
+                                cur = (cur + 1) % n;
+                                const prevEl = document.getElementById(uid + '_photo_' + prev);
+                                const nextEl = document.getElementById(uid + '_photo_' + cur);
+                                if (prevEl) prevEl.classList.remove('shown');
+                                if (nextEl) nextEl.classList.add('shown');
+                                for (let i = 0; i < n; i++) {
+                                    const d = document.getElementById(uid + '_pdot_' + i);
+                                    if (d) { d.style.background = i === cur ? '#fff' : 'rgba(255,255,255,0.35)'; d.style.transform = i === cur ? 'scale(1.3)' : ''; }
+                                }
+                                const cnt = document.getElementById(uid + '_cnt');
+                                if (cnt) cnt.textContent = cur + 1;
+                            }, 2500);
+                        }
+                    }
+
+                } else {
+                    const extraData = { catText, desc, toneText };
+                    const wrapper = document.createElement('div');
+                    wrapper.style.cssText = 'border-radius:16px;overflow:hidden;border:2px solid rgba(255,255,255,0.08);box-shadow:0 4px 20px rgba(0,0,0,0.4);animation:fadeUp 0.45s ease both;cursor:pointer;';
+                    wrapper.innerHTML = buildAdReel(0, pName, price, '', allImgData, extraData);
+                    grid.appendChild(wrapper);
+
+                    const uid = wrapper.querySelector('.ad-reel').id;
+
+                    if (allImgData.length > 1) {
+                        let cur = 0;
+                        const n = allImgData.length;
+                        photoSlideshowTimers[uid] = setInterval(() => {
+                            const prev = cur;
+                            cur = (cur + 1) % n;
+                            ['s1', 's2', 's3'].forEach(scene => {
+                                const prevEl = document.getElementById(uid + '_' + scene + '_photo_' + prev);
+                                const nextEl = document.getElementById(uid + '_' + scene + '_photo_' + cur);
+                                if (prevEl) prevEl.classList.remove('shown');
+                                if (nextEl) nextEl.classList.add('shown');
+                            });
+                            for (let i = 0; i < n; i++) {
+                                const d = document.getElementById(uid + '_pdot_' + i);
+                                if (d) d.classList.toggle('active', i === cur);
+                            }
+                            const numEl = document.getElementById(uid + '_photonum');
+                            if (numEl) numEl.textContent = cur + 1;
+                        }, 2500);
+                    }
+
+                    setTimeout(() => startVideoAd(uid), 400);
+                }
+
+                document.getElementById('results').classList.add('show');
+                setTimeout(() => document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' }), 120);
+            });
+        }
+
+        function closeModal(e) {
+            if (e.target === document.getElementById('modalOverlay')) {
+                document.getElementById('modalOverlay').classList.remove('open');
+                document.body.style.overflow = '';
+            }
+        }
+
+        function showToast() {
+            const t = document.getElementById('toast');
+            t.textContent = currentLang === 'hi' ? '✅ Download शुरू हो गई!' : '✅ Download started!';
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 3200);
+        }
+
+        function resetForm() {
+            Object.keys(photoSlideshowTimers).forEach(k => stopPhotoSlideshow(k));
+
+            uploadedFiles = []; renderThumbs();
+            document.getElementById('uploadZone').style.display = 'flex';
+            document.getElementById('thumbGrid').style.display = 'none';
+            ['fld-pname', 'fld-price', 'fld-desc'].forEach(id => document.getElementById(id).value = '');
+            document.getElementById('fld-cat').selectedIndex = 0;
+            document.querySelectorAll('#lang-chips .chip').forEach((c, i) => c.classList.toggle('sel', i === 0));
+            selectedAdLang = 'hindi';
+            document.querySelectorAll('#cult-tags .ctag, #daily-tags .ctag').forEach(t => t.classList.remove('sel'));
+            document.querySelector('#cult-tags .ctag[data-val="diwali"]').classList.add('sel');
+            document.getElementById('errorBox').classList.remove('show');
+            document.getElementById('progWrap').classList.remove('show');
+            document.getElementById('progBar').style.width = '0%';
+            document.getElementById('results').classList.remove('show');
+            ['p1', 'p2', 'p3', 'p4'].forEach(s => document.getElementById(s).className = 'pstep');
+            generatedTaglines = [...FALLBACK.hi.taglines];
+            generatedDescs = [...FALLBACK.hi.descs];
+            generatedCTAs = [...FALLBACK.hi.ctas];
+            generatedVariantNames = [...FALLBACK.hi.variants];
+            resetRecording();
+            dictUploadedFiles = [];
+            dictateExtracted = { name: '', price: '', desc: '' };
+            renderDictThumbs();
+            setMode('typing');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+
+</html>
